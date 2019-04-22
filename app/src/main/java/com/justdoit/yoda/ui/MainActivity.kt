@@ -1,7 +1,8 @@
-package com.justdoit.yoda
+package com.justdoit.yoda.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.justdoit.yoda.R
 
 class MainActivity : AppCompatActivity() {
 
