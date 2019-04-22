@@ -3,11 +3,11 @@ package com.justdoit.yoda.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.justdoit.yoda.entity.YodaEntity
+import com.justdoit.yoda.entity.MessageEntity
 
 class ListViewModel(app: Application) : AndroidViewModel(app) {
-    val items: MutableLiveData<List<YodaEntity>> by lazy {
-        MutableLiveData<List<YodaEntity>>()
+    val items: MutableLiveData<List<MessageEntity>> by lazy {
+        MutableLiveData<List<MessageEntity>>()
     }
 
     fun load() {

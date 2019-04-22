@@ -1,6 +1,6 @@
 package com.justdoit.yoda.entity
 
-data class YodaEntity(
+data class MessageEntity(
     val source: Source,
     val userId: String,
     val message: String
