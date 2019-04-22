@@ -1,4 +1,4 @@
-package org.t_robop.yoda
+package com.justdoit.yoda
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
