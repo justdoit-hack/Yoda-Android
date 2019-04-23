@@ -26,28 +26,32 @@ class FakeRepository {
         fakeApiService = retrofit.create(FakeApiService::class.java)
     }
 
-    fun getPosts(id: Int = 1): LiveData<FakeApiEntity> {
-        val data = MutableLiveData<FakeApiEntity>()
+    fun getPosts(num: Int = 10): LiveData<List<FakeApiEntity?>> {
+        val data = MutableLiveData<List<FakeApiEntity?>>()
+        val list = arrayListOf<FakeApiEntity?>()
 
-        fakeApiService.getPosts(id).enqueue(object : Callback<FakeApiEntity> {
-            override fun onResponse(call: Call<FakeApiEntity>, response: Response<FakeApiEntity>) {
-                data.postValue(response.body())
-                Log.d("API_TEST", "success! ${response.body()}")
-            }
+        for (i in 1..num) {
+            fakeApiService.getPosts(i).enqueue(object : Callback<FakeApiEntity> {
+                override fun onResponse(call: Call<FakeApiEntity>, response: Response<FakeApiEntity>) {
+                    list.add(response.body())
+                    data.value=list
+                    Log.d("API_TEST", "success! ${response.body()}")
+                }
 
-            override fun onFailure(call: Call<FakeApiEntity>, t: Throwable) {
-                Log.d("API_TEST", "error! $t")
-            }
-        })
+                override fun onFailure(call: Call<FakeApiEntity>, t: Throwable) {
+                    Log.d("API_TEST", "error! $t")
+                }
+            })
+        }
 
         return data
     }
 
     companion object Factory {
-        private var instance: MessageRepository? = null
+        private var instance: FakeRepository? = null
 
         fun getInstance() = instance ?: synchronized(this) {
-            instance ?: MessageRepository().also { instance = it }
+            instance ?: FakeRepository().also { instance = it }
         }
     }
 }
