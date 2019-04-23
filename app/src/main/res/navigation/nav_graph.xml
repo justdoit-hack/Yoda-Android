@@ -9,7 +9,7 @@
     <fragment
             android:id="@+id/listFragment"
             android:label="fragment_result"
-            android:name="com.justdoit.yoda.ui.ListFragment"
+            android:name="com.justdoit.yoda.ui.MessageListFragment"
             tools:layout="@layout/fragment_list">
     </fragment>
 
