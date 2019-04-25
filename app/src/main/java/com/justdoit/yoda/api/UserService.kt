@@ -8,10 +8,10 @@ interface UserService {
 
     //Firebase Authで取ってきたTokenを使ったログイン
     @FormUrlEncoded
-    @POST
+    @POST("auth/firebase/verify")
     fun loginByFirebase(
         @Field("token") token: String
-    ): Call<UserResponse?>
+    ): Call<UserResponse>
 
     //電話番号とパスワードを使ったログイン
     @FormUrlEncoded
@@ -19,21 +19,11 @@ interface UserService {
     fun login(
         @Field("phoneNo") phoneNumber: String,
         @Field("password") password: String
-    ): Call<UserResponse?>
-
-    //ユーザー登録
-    @FormUrlEncoded
-    @POST("users/create")
-    fun createUser(
-        @Field("phoneNo") phoneNo: String,
-        @Field("password") password: String,
-        @Field("name") name: String,
-        @Field("inAppPhoneNo") inAppPhoneNo: String
-    ): Call<UserResponse?>
+    ): Call<UserResponse>
 
     //ユーザー情報のフェッチ
     @GET("users/fetch")
     fun fetchUser(
         @Query("authToken") authToken: String
-    ): Call<UserResponse?>
+    ): Call<UserResponse>
 }
