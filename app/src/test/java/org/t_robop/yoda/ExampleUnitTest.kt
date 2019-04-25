@@ -1,4 +1,4 @@
-package org.t_robop.yoda
+package com.justdoit.yoda
 
 import org.junit.Test
 
