@@ -20,14 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         val phoneNumber = "08067788700"
         val password = "test1234"
-
-        GlobalScope.launch(Dispatchers.Main) {
-            val json = userRepository.login(phoneNumber, password).exec().await() ?: run {
-                Toast.makeText(this@MainActivity.applicationContext, "hogehoge", Toast.LENGTH_LONG).show()
-                return@launch
-            }
-            Toast.makeText(this@MainActivity.applicationContext, json.user.authToken, Toast.LENGTH_LONG).show()
-        }
+        
     }
 
 }
