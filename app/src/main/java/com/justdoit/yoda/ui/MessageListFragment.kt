@@ -89,7 +89,7 @@ class MessageListFragment : Fragment() {
         val userRepo = UserRepository.getInstance()
         val userRes = userRepo.loginByFirebase(token).exec().await() ?: return@launch
 
-        Log.d("ID_TOKEN", token)
+        Log.d("ID_TOKEN", userRes.user.authToken)
     }
 
 }
