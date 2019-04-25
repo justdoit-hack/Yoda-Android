@@ -1,5 +1,12 @@
 package com.justdoit.yoda
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context.TELEPHONY_SERVICE
+import android.content.pm.PackageManager
+import android.telephony.TelephonyManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.justdoit.yoda.api.FakeApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -25,5 +32,33 @@ object APIClient {
             .build()
 
         return retrofit.create(serviceClass)
+    }
+
+    @SuppressLint("HardwareIds")
+    fun getPhoneNumber(activity: Activity): String {
+        val tm: TelephonyManager by lazy {
+            activity.getSystemService(TELEPHONY_SERVICE) as TelephonyManager
+        }
+        if (ContextCompat.checkSelfPermission(
+                activity,
+                android.Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(android.Manifest.permission.READ_PHONE_STATE),
+                0
+            )
+        }
+        return tm.line1Number
+    }
+
+    fun toE164(originalPhoneNumber: String): String {
+        val number = originalPhoneNumber.substring(1)
+        return "+81$number"
+    }
+
+    fun getE164PhoneNumber(activity: Activity): String {
+        return toE164(getPhoneNumber(activity))
     }
 }
