@@ -13,13 +13,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.justdoit.yoda.APIClient
 import com.justdoit.yoda.adapter.MessageListAdapter
+import com.justdoit.yoda.api.FirebaseApi
 import com.justdoit.yoda.databinding.FragmentListBinding
 import com.justdoit.yoda.viewmodel.MessageListViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 
@@ -103,29 +105,10 @@ class MessageListFragment : Fragment() {
         )
     }
 
-    fun register(verificationID: String, smsCode: String) {
-        val auth = FirebaseAuth.getInstance()
-        val credential = PhoneAuthProvider.getCredential(verificationID, smsCode)
-        auth.signInWithCredential(credential).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                auth.currentUser?.let {
-                    it.getIdToken(true).addOnCompleteListener { tokenResult ->
-                        if (tokenResult.isSuccessful) {
-                            val idToken = tokenResult.result?.token
-                            Toast.makeText(context, idToken, Toast.LENGTH_LONG).show()
-                            Log.w("ID_TOKEN", idToken, task.exception)
-                            // Send token to your backend via HTTPS
-                            // ...
-                        } else {
-                            // Handle error -> task.getException();
-                        }
-                    }
-                }
-            } else {
-                Log.w("Phone", "signInWithPhoneAuthCredential:failure", task.exception)
-                Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
-            }
-        }
+    fun register(verificationID: String, smsCode: String) = GlobalScope.launch {
+        val firebaseApi = FirebaseApi()
+        val token = firebaseApi.getIdToken(verificationID, smsCode)
+        Log.d("ID_TOKEN", token)
     }
 
 }
