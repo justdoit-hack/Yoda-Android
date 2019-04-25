@@ -1,11 +1,28 @@
 package com.justdoit.yoda.entity
 
 data class MessageEntity(
-    val id: String,
-    val source: Source,
-    val userId: String,
-    val message: String
+    val toUserId: Int,
+    val fromUserId: Int?,
+    val fromPhoneNo: String?,
+    val sourceType: SourceType
 )
+
+data class SourceType(
+    val type: Int,
+    val isNotified: Boolean,
+    val originalBody: String,
+    val parsed: String
+)
+
+data class MessageResponse(
+    val ok: Int,
+    val message: MessageEntity
+)
+
+enum class SourceTypeEnum(num: Int) {
+    API(0),
+    ASTERISK(1)
+}
 
 enum class Source {
     MOBILE, LANDLINE, NONUMBER
