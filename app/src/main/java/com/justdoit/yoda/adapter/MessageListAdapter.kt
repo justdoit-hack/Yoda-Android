@@ -9,18 +9,18 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.justdoit.yoda.R
 import com.justdoit.yoda.databinding.ItemMessageBinding
-import com.justdoit.yoda.entity.FakeApiEntity
+import com.justdoit.yoda.entity.MessageEntity
 
 
-private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FakeApiEntity>() {
-    override fun areContentsTheSame(oldItem: FakeApiEntity, newItem: FakeApiEntity): Boolean =
+private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MessageEntity>() {
+    override fun areContentsTheSame(oldItem: MessageEntity, newItem: MessageEntity): Boolean =
         oldItem == newItem
 
-    override fun areItemsTheSame(oldItem: FakeApiEntity, newItem: FakeApiEntity): Boolean =
+    override fun areItemsTheSame(oldItem: MessageEntity, newItem: MessageEntity): Boolean =
         oldItem.id == newItem.id
 }
 
-class MessageListAdapter : ListAdapter<FakeApiEntity, MessageListAdapter.ViewHolder>(DIFF_CALLBACK) {
+class MessageListAdapter : ListAdapter<MessageEntity, MessageListAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_message, parent, false)

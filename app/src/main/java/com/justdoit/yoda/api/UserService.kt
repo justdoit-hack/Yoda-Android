@@ -9,15 +9,15 @@ import retrofit2.http.POST
 interface UserService {
 
     @FormUrlEncoded
-    @POST
+    @POST("auth/firebase/verify")
     fun loginByFirebase(
         @Field("token") token: String
-    ): Call<UserResponse?>
+    ): Call<UserResponse>
 
     @FormUrlEncoded
     @POST("auth/login")
     fun login(
         @Field("phoneNo") phoneNumber: String,
         @Field("password") password: String
-    ): Call<UserResponse?>
+    ): Call<UserResponse>
 }

@@ -1,6 +1,8 @@
 package com.justdoit.yoda.ui
 
+import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +11,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.justdoit.yoda.APIClient
 import com.justdoit.yoda.adapter.MessageListAdapter
+import com.justdoit.yoda.api.FirebaseApi
 import com.justdoit.yoda.databinding.FragmentListBinding
+import com.justdoit.yoda.repository.UserRepository
+import com.justdoit.yoda.utils.SystemUtil
+import com.justdoit.yoda.utils.exec
 import com.justdoit.yoda.viewmodel.MessageListViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MessageListFragment : Fragment() {
+
     private val viewModel: MessageListViewModel by lazy {
         ViewModelProviders.of(activity!!).get(MessageListViewModel::class.java)
     }
@@ -36,13 +46,17 @@ class MessageListFragment : Fragment() {
         ) as FragmentListBinding
 
         val adapter = MessageListAdapter()
-        viewModel.items?.observe(this, Observer { list ->
-            adapter.submitList(list)
-        })
+//        viewModel.items?.observe(this, Observer { list ->
+//            adapter.submitList(list)
+//        })
 
         val linearLayoutManager = LinearLayoutManager(activity)
         binding.messageList.layoutManager = linearLayoutManager
         binding.messageList.adapter = adapter
+
+        binding.addBtn.setOnClickListener {
+            sendSMS(APIClient.getE164PhoneNumber(activity!!))
+        }
 
 //        val itemsObserver = Observer<List<MessageEntity>> { users ->
 //            // Update the UI, in this case, a TextView.
@@ -57,4 +71,25 @@ class MessageListFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun sendSMS(phoneNumber: String) = GlobalScope.launch {
+        val util = SystemUtil()
+        val smsEntity = util.getSMSCode(activity as Activity, phoneNumber)
+        if (smsEntity == null) Log.d("SMS_ERROR", "sms error !")
+        smsEntity?.let {
+            register(smsEntity.verificationID, smsEntity.smsCode)
+        }
+    }
+
+    fun register(verificationID: String, smsCode: String) = GlobalScope.launch {
+        val firebaseApi = FirebaseApi()
+        val token = firebaseApi.getIdToken(verificationID, smsCode)
+        Log.d("ID_TOKEN", token)
+
+        val userRepo = UserRepository.getInstance()
+        val userRes = userRepo.loginByFirebase(token).exec().await() ?: return@launch
+
+        Log.d("ID_TOKEN", userRes.user.authToken)
+    }
+
 }
