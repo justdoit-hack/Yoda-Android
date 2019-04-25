@@ -1,19 +1,19 @@
 package com.justdoit.yoda.api
 
-import android.util.Log
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
-import android.content.Context.NOTIFICATION_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
-import android.app.NotificationManager
 import android.R
-import android.media.RingtoneManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.media.RingtoneManager
+import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 import com.justdoit.yoda.ui.MainActivity
-
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -54,18 +54,44 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             PendingIntent.FLAG_ONE_SHOT
         )
 
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-        val notificationBuilder = NotificationCompat.Builder(this)
-            .setSmallIcon(R.drawable.sym_def_app_icon)
-            .setContentTitle(title)
-            .setSubText(body)
-            .setAutoCancel(true)
-            .setSound(defaultSoundUri)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-            .setContentIntent(pendingIntent)
-
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+        val categoryName = "通知設定のタイトル"
+        val channelId = "channelId"
+        val notifyDescription = "通知設定の詳細情報"
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (notificationManager.getNotificationChannel(channelId) == null) {
+                val channel = NotificationChannel(channelId, categoryName, NotificationManager.IMPORTANCE_HIGH)
+                channel.apply {
+                    description = notifyDescription
+                    enableVibration(true)
+                    canShowBadge()
+                    setShowBadge(true)
+                    enableLights(true)
+                    lightColor = Color.BLUE
+                    lockscreenVisibility = NotificationCompat.VISIBILITY_PRIVATE
+                }
+                notificationManager.createNotificationChannel(channel)
+            }
+
+        }
+
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .apply {
+                setSmallIcon(R.drawable.sym_def_app_icon)
+                setContentTitle(title)
+                setSubText(body)
+                setAutoCancel(true)
+                setSound(defaultSoundUri)
+                setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                setContentIntent(pendingIntent)
+                setWhen(System.currentTimeMillis())
+                setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                priority = NotificationCompat.PRIORITY_HIGH
+                setAutoCancel(true)
+            }
 
         notificationManager.notify(0, notificationBuilder.build())
     }
