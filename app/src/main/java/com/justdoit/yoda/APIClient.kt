@@ -1,6 +1,6 @@
 package com.justdoit.yoda
 
-import com.justdoit.yoda.api.AuthService
+import com.justdoit.yoda.api.UserService
 import com.justdoit.yoda.api.FakeApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -12,7 +12,7 @@ object APIClient {
     private const val TEST_API_URL = "https://jsonplaceholder.typicode.com"
 
     val fakeApiService: FakeApiService = create(FakeApiService::class.java)
-    val authService: AuthService = create(AuthService::class.java)
+    val userService: UserService = create(UserService::class.java)
     //TODO 各Serviceの追加
 
     private lateinit var retrofit: Retrofit

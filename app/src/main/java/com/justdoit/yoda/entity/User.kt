@@ -7,7 +7,7 @@ data class User(
     val authToken: String
 )
 
-data class AuthResponse(
+data class UserResponse(
     val ok: Int,
     val user: User
 )
