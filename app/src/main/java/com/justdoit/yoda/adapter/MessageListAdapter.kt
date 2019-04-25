@@ -28,8 +28,7 @@ class MessageListAdapter : ListAdapter<FakeApiEntity, MessageListAdapter.ViewHol
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.getBinding()?.textId?.text = item.title
+        holder.getBinding()?.entity = getItem(position)
     }
 
     // ViewHolder(固有ならインナークラスでOK)
