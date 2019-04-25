@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "259542844641",
+    "firebase_url": "https://yoda-568d0.firebaseio.com",
+    "project_id": "yoda-568d0",
+    "storage_bucket": "yoda-568d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259542844641:android:8f32f437d00661ee",
+        "android_client_info": {
+          "package_name": "com.justdoit.yoda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259542844641-dhfe480v9jk1lsp7amc51g3h5ulp8k4l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.justdoit.yoda",
+            "certificate_hash": "aea935413b72b433545412e7b52c66c3ee10dba5"
+          }
+        },
+        {
+          "client_id": "259542844641-ahof652nkbs8dv8lhpmee71aogam232k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA86XYmwuS8GNVIjIr-Upm6c4sdsOLyHzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259542844641-ahof652nkbs8dv8lhpmee71aogam232k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
