@@ -15,7 +15,9 @@ import com.justdoit.yoda.APIClient
 import com.justdoit.yoda.adapter.MessageListAdapter
 import com.justdoit.yoda.api.FirebaseApi
 import com.justdoit.yoda.databinding.FragmentListBinding
+import com.justdoit.yoda.repository.UserRepository
 import com.justdoit.yoda.utils.SystemUtil
+import com.justdoit.yoda.utils.exec
 import com.justdoit.yoda.viewmodel.MessageListViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -73,6 +75,7 @@ class MessageListFragment : Fragment() {
     private fun sendSMS(phoneNumber: String) = GlobalScope.launch {
         val util = SystemUtil()
         val smsEntity = util.getSMSCode(activity as Activity, phoneNumber)
+        if (smsEntity == null) Log.d("SMS_ERROR", "sms error !")
         smsEntity?.let {
             register(smsEntity.verificationID, smsEntity.smsCode)
         }
@@ -81,6 +84,11 @@ class MessageListFragment : Fragment() {
     fun register(verificationID: String, smsCode: String) = GlobalScope.launch {
         val firebaseApi = FirebaseApi()
         val token = firebaseApi.getIdToken(verificationID, smsCode)
+        Log.d("ID_TOKEN", token)
+
+        val userRepo = UserRepository.getInstance()
+        val userRes = userRepo.loginByFirebase(token).exec().await() ?: return@launch
+
         Log.d("ID_TOKEN", token)
     }
 
