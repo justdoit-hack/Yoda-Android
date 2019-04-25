@@ -46,9 +46,9 @@ class MessageListFragment : Fragment() {
         ) as FragmentListBinding
 
         val adapter = MessageListAdapter()
-        viewModel.items?.observe(this, Observer { list ->
-            adapter.submitList(list)
-        })
+//        viewModel.items?.observe(this, Observer { list ->
+//            adapter.submitList(list)
+//        })
 
         val linearLayoutManager = LinearLayoutManager(activity)
         binding.messageList.layoutManager = linearLayoutManager
