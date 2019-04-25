@@ -5,7 +5,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import retrofit2.Call
 import ru.gildor.coroutines.retrofit.awaitResponse
-import java.lang.Exception
 
 fun <T> Call<T>.exec() = GlobalScope.async {
     try {

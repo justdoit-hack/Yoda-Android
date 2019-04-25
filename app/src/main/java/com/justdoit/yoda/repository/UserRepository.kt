@@ -5,11 +5,11 @@ import com.justdoit.yoda.entity.UserResponse
 import retrofit2.Call
 
 class UserRepository {
-    fun loginByFirebase(token: String): Call<UserResponse?> {
+    fun loginByFirebase(token: String): Call<UserResponse> {
         return userService.loginByFirebase(token)
     }
 
-    fun login(phoneNumber: String, password: String): Call<UserResponse?> {
+    fun login(phoneNumber: String, password: String): Call<UserResponse> {
         return userService.login(phoneNumber, password)
     }
 
