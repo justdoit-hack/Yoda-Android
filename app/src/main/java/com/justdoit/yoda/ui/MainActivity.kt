@@ -1,13 +1,14 @@
 package com.justdoit.yoda.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.justdoit.yoda.R
 import com.justdoit.yoda.repository.UserRepository
+import com.justdoit.yoda.utils.exec
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import ru.gildor.coroutines.retrofit.Result
-import ru.gildor.coroutines.retrofit.awaitResult
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,11 +21,12 @@ class MainActivity : AppCompatActivity() {
         val phoneNumber = "08067788700"
         val password = "test1234"
 
-        runBlocking {
-            val result = userRepository.login(phoneNumber, password).awaitResult()
-            when(result) {
-
+        GlobalScope.launch(Dispatchers.Main) {
+            val json = userRepository.login(phoneNumber, password).exec().await() ?: run {
+                Toast.makeText(this@MainActivity.applicationContext, "hogehoge", Toast.LENGTH_LONG).show()
+                return@launch
             }
+            Toast.makeText(this@MainActivity.applicationContext, json.user.authToken, Toast.LENGTH_LONG).show()
         }
     }
 
