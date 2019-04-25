@@ -27,8 +27,9 @@ class FirebaseApi {
                 if (tokenResult.isSuccessful) {
                     val idToken = tokenResult.result?.token
                     idToken?.let { continuation.resume(idToken) }
+                } else {
+                    continuation.resume("")
                 }
-                continuation.resume("")
             }
 
             auth.signInWithCredential(credential).addOnCompleteListener { task ->
