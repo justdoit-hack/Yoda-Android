@@ -3,6 +3,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable name="entity" type="com.justdoit.yoda.entity.FakeApiEntity"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -12,6 +16,7 @@
                 android:id="@+id/text_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{entity.title}"
                 android:padding="8dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
