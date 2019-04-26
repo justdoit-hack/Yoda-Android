@@ -17,7 +17,7 @@ private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MessageEntity>() {
         oldItem == newItem
 
     override fun areItemsTheSame(oldItem: MessageEntity, newItem: MessageEntity): Boolean =
-        oldItem.toUserId == newItem.toUserId
+        oldItem.id == newItem.id
 }
 
 class MessageListAdapter : ListAdapter<MessageEntity, MessageListAdapter.ViewHolder>(DIFF_CALLBACK) {
