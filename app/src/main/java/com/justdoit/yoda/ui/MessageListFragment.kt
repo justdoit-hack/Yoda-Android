@@ -15,6 +15,7 @@ import com.justdoit.yoda.adapter.MessageListAdapter
 import com.justdoit.yoda.api.FirebaseApi
 import com.justdoit.yoda.databinding.FragmentListBinding
 import com.justdoit.yoda.repository.UserRepository
+import com.justdoit.yoda.utils.PreferenceUtil
 import com.justdoit.yoda.utils.SystemUtil
 import com.justdoit.yoda.viewmodel.MessageListViewModel
 import kotlinx.coroutines.GlobalScope
@@ -26,6 +27,8 @@ class MessageListFragment : Fragment() {
     private val viewModel: MessageListViewModel by lazy {
         ViewModelProviders.of(activity!!).get(MessageListViewModel::class.java)
     }
+
+    private lateinit var preferenceUtil: PreferenceUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +55,14 @@ class MessageListFragment : Fragment() {
         binding.messageList.layoutManager = linearLayoutManager
         binding.messageList.adapter = adapter
 
+        preferenceUtil = PreferenceUtil(requireContext())
+
         binding.addBtn.setOnClickListener {
-            sendSMS(APIClient.getE164PhoneNumber(activity!!))
+            if (preferenceUtil.authTokenPref == null) {
+                sendSMS(APIClient.getE164PhoneNumber(activity!!))
+            } else {
+                Log.d("Login", "Already Login.\nTOKEN is ${preferenceUtil.authTokenPref}")
+            }
         }
 
 //        val itemsObserver = Observer<List<MessageEntity>> { users ->
@@ -79,7 +88,7 @@ class MessageListFragment : Fragment() {
         }
     }
 
-    fun register(verificationID: String, smsCode: String) = GlobalScope.launch {
+    private fun register(verificationID: String, smsCode: String) = GlobalScope.launch {
         val firebaseApi = FirebaseApi()
         val token = firebaseApi.getIdToken(verificationID, smsCode)
         Log.d("ID_TOKEN", token)
@@ -88,10 +97,17 @@ class MessageListFragment : Fragment() {
         val userRes = userRepo.loginByFirebase(token).await() ?: return@launch
         userRes.takeUnless { it.hasError }?.let {
             val userResponse = it.body ?: return@let
-            Log.d("ID_TOKEN", userResponse.user.authToken)
+            val authToken = userResponse.user.authToken
+            Log.d("ID_TOKEN", authToken)
+
+            saveAuthTokenToPref(authToken)
         } ?: run {
             Log.e("TOKEN_REGISTER_ERROR", userRes.error.toString())
         }
+    }
+
+    private fun saveAuthTokenToPref(authToken: String) {
+        preferenceUtil.authTokenPref = authToken
     }
 
 }
