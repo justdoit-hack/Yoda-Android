@@ -60,6 +60,7 @@ class MessageListFragment : Fragment() {
         binding.addBtn.setOnClickListener {
             if (preferenceUtil.authTokenPref == null) {
                 sendSMS(APIClient.getE164PhoneNumber(activity!!))
+                Log.d("Login", "Login Success!")
             } else {
                 Log.d("Login", "Already Login.\nTOKEN is ${preferenceUtil.authTokenPref}")
             }
@@ -100,14 +101,10 @@ class MessageListFragment : Fragment() {
             val authToken = userResponse.user.authToken
             Log.d("ID_TOKEN", authToken)
 
-            saveAuthTokenToPref(authToken)
+            preferenceUtil.authTokenPref = authToken
         } ?: run {
             Log.e("TOKEN_REGISTER_ERROR", userRes.error.toString())
         }
-    }
-
-    private fun saveAuthTokenToPref(authToken: String) {
-        preferenceUtil.authTokenPref = authToken
     }
 
 }
