@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.justdoit.yoda.APIClient
@@ -17,7 +16,6 @@ import com.justdoit.yoda.api.FirebaseApi
 import com.justdoit.yoda.databinding.FragmentListBinding
 import com.justdoit.yoda.repository.UserRepository
 import com.justdoit.yoda.utils.SystemUtil
-import com.justdoit.yoda.utils.exec
 import com.justdoit.yoda.viewmodel.MessageListViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -87,9 +85,13 @@ class MessageListFragment : Fragment() {
         Log.d("ID_TOKEN", token)
 
         val userRepo = UserRepository.getInstance()
-        val userRes = userRepo.loginByFirebase(token).exec().await() ?: return@launch
-
-        Log.d("ID_TOKEN", userRes.user.authToken)
+        val userRes = userRepo.loginByFirebase(token).await() ?: return@launch
+        userRes.takeUnless { it.hasError }?.let {
+            val userResponse = it.body ?: return@let
+            Log.d("ID_TOKEN", userResponse.user.authToken)
+        } ?: run {
+            Log.e("TOKEN_REGISTER_ERROR", userRes.error.toString())
+        }
     }
 
 }
