@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 class MessageListFragment : Fragment() {
 
     private val viewModel: MessageListViewModel by lazy {
-        ViewModelProviders.of(activity!!).get(MessageListViewModel::class.java)
+        ViewModelProviders.of(this.requireActivity()).get(MessageListViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

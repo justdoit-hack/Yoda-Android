@@ -5,15 +5,16 @@ import com.justdoit.yoda.entity.BaseResponse
 import com.justdoit.yoda.entity.UserResponse
 import com.justdoit.yoda.utils.asyncWithBaseRes
 import kotlinx.coroutines.Deferred
-import retrofit2.Call
 
 class UserRepository {
-    fun loginByFirebase(token: String): Deferred<BaseResponse<out UserResponse>?> {
-        return userService.loginByFirebase(token).asyncWithBaseRes()
+    fun loginByFirebase(token: String): Deferred<BaseResponse<out UserResponse>?> = userService.loginByFirebase(token).asyncWithBaseRes()
+
+    fun login(phoneNumber: String, password: String): Deferred<BaseResponse<out UserResponse>?> {
+        return userService.login(phoneNumber, password).asyncWithBaseRes()
     }
 
-    fun login(phoneNumber: String, password: String): Call<UserResponse> {
-        return userService.login(phoneNumber, password)
+    fun fetchUser(authToken: String): Deferred<BaseResponse<out UserResponse>?> {
+        return userService.fetchUser(authToken).asyncWithBaseRes()
     }
 
     companion object Factory {
