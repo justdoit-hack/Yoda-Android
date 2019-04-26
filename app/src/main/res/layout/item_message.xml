@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="entity" type="com.justdoit.yoda.entity.FakeApiEntity"/>
+        <variable name="entity" type="com.justdoit.yoda.entity.MessageEntity"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
                 android:id="@+id/text_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{entity.title}"
+                android:text="@{entity.userId}"
                 android:padding="8dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
