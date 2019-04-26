@@ -14,7 +14,10 @@ fun <T> Call<T>.asyncWithBaseRes() = GlobalScope.async {
     try {
         val result = this@asyncWithBaseRes.awaitResponse()
         if (result.isSuccessful) BaseResponse(result.body()) else {
-            val errorJson = result.errorBody()?.string() ?: return@async null
+            val errorJson = result.errorBody()?.string() ?: run {
+                Log.e("RetrofitCall", "ERROR STATUS: ${result.code()}")
+                return@async null
+            }
             val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
             BaseResponse(null, true, moshi.adapter(ErrorResponse::class.java).fromJson(errorJson))
         }
