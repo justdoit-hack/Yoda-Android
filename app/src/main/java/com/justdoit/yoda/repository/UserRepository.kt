@@ -1,12 +1,15 @@
 package com.justdoit.yoda.repository
 
 import com.justdoit.yoda.APIClient.userService
+import com.justdoit.yoda.entity.BaseResponse
 import com.justdoit.yoda.entity.UserResponse
+import com.justdoit.yoda.utils.asyncWithBaseRes
+import kotlinx.coroutines.Deferred
 import retrofit2.Call
 
 class UserRepository {
-    fun loginByFirebase(token: String): Call<UserResponse> {
-        return userService.loginByFirebase(token)
+    fun loginByFirebase(token: String): Deferred<BaseResponse<out UserResponse>?> {
+        return userService.loginByFirebase(token).asyncWithBaseRes()
     }
 
     fun login(phoneNumber: String, password: String): Call<UserResponse> {
