@@ -8,9 +8,7 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Call
 
 class UserRepository {
-    fun loginByFirebase(token: String): Deferred<BaseResponse<out UserResponse>?> {
-        return userService.loginByFirebase(token).asyncWithBaseRes()
-    }
+    fun loginByFirebase(token: String): Deferred<BaseResponse<out UserResponse>?> = userService.loginByFirebase(token).asyncWithBaseRes()
 
     fun login(phoneNumber: String, password: String): Call<UserResponse> {
         return userService.login(phoneNumber, password)
