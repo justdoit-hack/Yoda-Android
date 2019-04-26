@@ -7,10 +7,7 @@ import com.justdoit.yoda.utils.asyncWithBaseRes
 import kotlinx.coroutines.Deferred
 
 class UserRepository {
-
-    fun loginByFirebase(token: String): Deferred<BaseResponse<out UserResponse>?> {
-        return userService.loginByFirebase(token).asyncWithBaseRes()
-    }
+    fun loginByFirebase(token: String): Deferred<BaseResponse<out UserResponse>?> = userService.loginByFirebase(token).asyncWithBaseRes()
 
     fun login(phoneNumber: String, password: String): Deferred<BaseResponse<out UserResponse>?> {
         return userService.login(phoneNumber, password).asyncWithBaseRes()
