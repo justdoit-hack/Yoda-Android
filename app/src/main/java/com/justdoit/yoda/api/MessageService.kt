@@ -14,23 +14,23 @@ interface MessageService {
         @Field("body") body: String,
         @Field("isAnonymous") isAnonymous: Boolean,
         @Field("toInAppPhoneNo") toInAppPhoneNo: String
-    )
+    ): Call<MessageResponse>
 
     //メッセージ送信履歴取得
     @GET("messages/history/send")
     fun getSendMessageHistory(
-        limit: Int,
-        offset: Int,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
         @Query("authToken") authToken: String
-    ): Call<List<MessageResponse>>
+    ): Call<MessageResponse>
 
     //メッセージ受信履歴取得
     @GET("messages/history/receive")
     fun getReceiveMessageHistory(
-        limit: Int,
-        offset: Int,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
         @Query("authToken") authToken: String
-    ): Call<List<MessageResponse>>
+    ): Call<MessageResponse>
 
     //メッセージ単体取得
     @GET("messages")

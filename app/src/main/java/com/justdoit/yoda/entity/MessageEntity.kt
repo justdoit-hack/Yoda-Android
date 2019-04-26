@@ -16,7 +16,7 @@ data class SourceType(
 
 data class MessageResponse(
     val ok: Int,
-    val message: MessageEntity
+    val message: List<MessageEntity>?
 )
 
 enum class SourceTypeEnum(num: Int) {
