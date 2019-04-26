@@ -3,6 +3,7 @@ package com.justdoit.yoda.repository
 import com.justdoit.yoda.APIClient.messageService
 import com.justdoit.yoda.entity.BaseResponse
 import com.justdoit.yoda.entity.MessageResponse
+import com.justdoit.yoda.entity.MessagesResponse
 import com.justdoit.yoda.utils.asyncWithBaseRes
 import kotlinx.coroutines.Deferred
 
@@ -17,20 +18,20 @@ class MessageRepository {
 
 
     fun getSendMessageHistory(
-        limit: Int,
-        offset: Int,
+        limit: Int?,
+        offset: Int?,
         authToken: String
-    ): Deferred<BaseResponse<out MessageResponse>?> =
+    ): Deferred<BaseResponse<out MessagesResponse>?> =
         messageService.getSendMessageHistory(limit, offset, authToken).asyncWithBaseRes()
 
     fun getReceiveMessageHistory(
-        limit: Int,
-        offset: Int,
+        limit: Int?,
+        offset: Int?,
         authToken: String
-    ): Deferred<BaseResponse<out MessageResponse>?> =
+    ): Deferred<BaseResponse<out MessagesResponse>?> =
         messageService.getReceiveMessageHistory(limit, offset, authToken).asyncWithBaseRes()
 
-    fun getMessage(messageId: String, authToken: String): Deferred<BaseResponse<out MessageResponse>?> =
+    fun getMessage(messageId: Int, authToken: String): Deferred<BaseResponse<out MessageResponse>?> =
         messageService.getMessage(messageId, authToken).asyncWithBaseRes()
 
     companion object Factory {
