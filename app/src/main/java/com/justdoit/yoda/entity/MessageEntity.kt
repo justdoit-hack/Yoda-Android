@@ -27,7 +27,3 @@ enum class SourceTypeEnum(num: Int) {
     API(0),
     ASTERISK(1)
 }
-
-enum class Source {
-    MOBILE, LANDLINE, NONUMBER
-}
