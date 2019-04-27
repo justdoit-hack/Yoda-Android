@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.adapter.MessageListAdapter
 import com.justdoit.yoda.databinding.FragmentListBinding
 import com.justdoit.yoda.viewmodel.MessageListViewModel
@@ -18,6 +20,12 @@ class MessageListFragment : Fragment() {
     private val viewModel: MessageListViewModel by lazy {
         ViewModelProviders.of(this.requireActivity()).get(MessageListViewModel::class.java)
     }
+
+    private var limit: Int? = null
+    private var offset: Int? = null
+    private var authToken: String? = null
+
+    private val adapter = MessageListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,55 +43,30 @@ class MessageListFragment : Fragment() {
             false
         ) as FragmentListBinding
 
-        val adapter = MessageListAdapter()
-//        viewModel.items?.observe(this, Observer { list ->
-//            adapter.submitList(list)
-//        })
+        val sessionManager = SessionManager.instance
+        authToken = sessionManager.authToken
+
+        observeMessageList(limit, offset)
 
         val linearLayoutManager = LinearLayoutManager(activity)
         binding.messageList.layoutManager = linearLayoutManager
         binding.messageList.adapter = adapter
 
-//        binding.addBtn.setOnClickListener {
-//            sendSMS(APIClient.getE164PhoneNumber(activity!!))
-//        }
-
-//        val itemsObserver = Observer<List<MessageEntity>> { users ->
-//            // Update the UI, in this case, a TextView.
-//            users?.forEach {
-//                // todo データをリストに反映させる処理
-//
-//                Log.d("YODA_ID", it.userId)
-//            }
-//        }
-//
-//        viewModel.items.observe(this, itemsObserver)
+        binding.addBtn.setOnClickListener {
+            observeMessageList(limit, offset)
+        }
 
         return binding.root
     }
 
-//    private fun sendSMS(phoneNumber: String) = GlobalScope.launch {
-//        val util = SystemUtil()
-//        val smsEntity = util.getSMSCode(activity as Activity, phoneNumber)
-//        if (smsEntity == null) Log.d("SMS_ERROR", "sms error !")
-//        smsEntity?.let {
-//            register(smsEntity.verificationID, smsEntity.smsCode)
-//        }
-//    }
+    private fun observeMessageList(limit: Int?, offset: Int?) {
+        authToken?.let {
+            viewModel.getMessageList(limit, offset, it).observe(this, Observer { list ->
+                adapter.submitList(list)
+            })
+        }
 
-//    fun register(verificationID: String, smsCode: String) = GlobalScope.launch {
-//        val firebaseApi = FirebaseApi()
-//        val token = firebaseApi.getIdToken(verificationID, smsCode)
-//        Log.d("ID_TOKEN", token)
-//
-//        val userRepo = UserRepository.getInstance()
-//        val userRes = userRepo.loginByFirebase(token).await() ?: return@launch
-//        userRes.takeUnless { it.hasError }?.let {
-//            val userResponse = it.body ?: return@let
-//            Log.d("ID_TOKEN", userResponse.user.authToken)
-//        } ?: run {
-//            Log.e("TOKEN_REGISTER_ERROR", userRes.error.toString())
-//        }
-//    }
+
+    }
 
 }

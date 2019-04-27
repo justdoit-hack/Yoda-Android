@@ -79,6 +79,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-identity:16.0.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:16.0.0'
 
+    // Paging
+    implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
