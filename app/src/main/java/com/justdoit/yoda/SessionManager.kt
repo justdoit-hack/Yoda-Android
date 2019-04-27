@@ -32,6 +32,7 @@ class SessionManager private constructor() {
     }
 
     fun isLogin(): Boolean = this.user != null
+    fun isRegistered(): Boolean = this.authToken != null
 
     fun logout() {
         this.user = null

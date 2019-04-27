@@ -1,14 +1,23 @@
 package com.justdoit.yoda.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.justdoit.yoda.R
+import com.justdoit.yoda.SessionManager
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        this.setContentView(R.layout.activity_main)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!SessionManager.instance.isRegistered()) {
+            this.startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 
 }

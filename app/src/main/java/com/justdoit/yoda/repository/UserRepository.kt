@@ -2,12 +2,14 @@ package com.justdoit.yoda.repository
 
 import com.justdoit.yoda.APIClient.userService
 import com.justdoit.yoda.entity.BaseResponse
+import com.justdoit.yoda.entity.OkayResponse
 import com.justdoit.yoda.entity.UserResponse
 import com.justdoit.yoda.utils.asyncWithBaseRes
 import kotlinx.coroutines.Deferred
 
 class UserRepository {
     fun loginByFirebase(token: String): Deferred<BaseResponse<out UserResponse>?> = userService.loginByFirebase(token).asyncWithBaseRes()
+    fun registerNotificationToken(authToken: String, registerToken: String): Deferred<BaseResponse<out OkayResponse>?> = userService.registerNotificationToken(authToken, registerToken).asyncWithBaseRes()
 
     fun login(phoneNumber: String, password: String): Deferred<BaseResponse<out UserResponse>?> {
         return userService.login(phoneNumber, password).asyncWithBaseRes()

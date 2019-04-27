@@ -16,7 +16,7 @@
                 android:id="@+id/text_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{entity.userId}"
+                android:text="@{entity.originalBody}"
                 android:padding="8dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
