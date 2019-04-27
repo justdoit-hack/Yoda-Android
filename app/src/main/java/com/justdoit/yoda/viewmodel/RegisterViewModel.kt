@@ -30,6 +30,7 @@ class RegisterViewModel(app: Application): AndroidViewModel(app) {
             return
         }
         GlobalScope.launch {
+            GlobalScope.launch(Dispatchers.Main) { this@RegisterViewModel.statusText.set("SMSを待機中...") }
             val sms = this@RegisterViewModel.firebaseAuthUtil.getSMSCode(activity, phoneNumber) ?: run {
                 GlobalScope.launch(Dispatchers.Main) {
                     this@RegisterViewModel.statusText.set("認証失敗")
@@ -37,7 +38,6 @@ class RegisterViewModel(app: Application): AndroidViewModel(app) {
                 }
                 return@launch
             }
-            GlobalScope.launch(Dispatchers.Main) { this@RegisterViewModel.statusText.set("SMSを待機中...") }
             this@RegisterViewModel.loginAndFetchUserInfo(sms.verificationID, sms.smsCode) {
                 activity.finishLogin()
             }
