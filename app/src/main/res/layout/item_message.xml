@@ -1,29 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable name="receiveTimeText" type="String"/>
         <variable name="entity" type="com.justdoit.yoda.entity.MessageEntity"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_message"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="25dp">
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle"
+                android:backgroundTint="#1F2238"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/text_id"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:backgroundTint="#1F2238"/>
 
         <TextView
                 android:id="@+id/text_id"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{entity.createdAt}"
-                android:padding="8dp"
+                android:text="@{entity.fromPhoneNo}"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:textColor="#A3A3A6"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                tools:text="#1 220 991"/>
+
+        <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{receiveTimeText}"
+                android:textSize="18sp"
+                android:backgroundTint="#E4DDD0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/text_id"
+                tools:text="2019/4/25 20:03"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/radius_view_corner"
+                app:layout_constraintTop_toBottomOf="@+id/text_id"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="@+id/text_date"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                    android:id="@+id/message_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@{entity.originalBody}"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    tools:text="536422222222222222222223665758585858"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
