@@ -13,4 +13,32 @@
             tools:layout="@layout/fragment_list">
     </fragment>
 
+    <fragment
+            android:id="@+id/sendFragment"
+            android:label="fragment_result"
+            android:name="com.justdoit.yoda.ui.SendFragment"
+            tools:layout="@layout/fragment_send">
+    </fragment>
+
+    <fragment
+            android:id="@+id/splashFragment"
+            android:label="fragment_result"
+            android:name="com.justdoit.yoda.ui.SplashFragment"
+            tools:layout="@layout/fragment_splash">
+    </fragment>
+
+    <fragment
+            android:id="@+id/pocketbellFragment"
+            android:label="fragment_result"
+            android:name="com.justdoit.yoda.ui.PocketBellFragment"
+            tools:layout="@layout/fragment_pocket_bell">
+    </fragment>
+
+    <fragment
+            android:id="@+id/settingFragment"
+            android:label="fragment_result"
+            android:name="com.justdoit.yoda.ui.SettingFragment"
+            tools:layout="@layout/fragment_setting">
+    </fragment>
+
 </navigation>
