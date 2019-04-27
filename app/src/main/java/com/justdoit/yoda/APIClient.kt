@@ -33,32 +33,4 @@ object APIClient {
 
         return retrofit.create(serviceClass)
     }
-
-    @SuppressLint("HardwareIds")
-    fun getPhoneNumber(activity: Activity): String {
-        val tm: TelephonyManager by lazy {
-            activity.getSystemService(TELEPHONY_SERVICE) as TelephonyManager
-        }
-        if (ContextCompat.checkSelfPermission(
-                activity,
-                android.Manifest.permission.READ_PHONE_STATE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(android.Manifest.permission.READ_PHONE_STATE),
-                0
-            )
-        }
-        return tm.line1Number
-    }
-
-    fun toE164(originalPhoneNumber: String): String {
-        val number = originalPhoneNumber.substring(1)
-        return "+81$number"
-    }
-
-    fun getE164PhoneNumber(activity: Activity): String {
-        return toE164(getPhoneNumber(activity))
-    }
 }

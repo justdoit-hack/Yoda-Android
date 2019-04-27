@@ -12,8 +12,8 @@ import kotlinx.coroutines.async
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class FirebaseApi {
-    suspend fun getIdToken(verificationID: String, smsCode: String): String {
+class FirebaseAuthService {
+    suspend fun getIdToken(verificationID: String, smsCode: String): String? {
         val auth = FirebaseAuth.getInstance()
         val credential = PhoneAuthProvider.getCredential(verificationID, smsCode)
         return GlobalScope.async(Dispatchers.Default) {
@@ -21,16 +21,9 @@ class FirebaseApi {
         }.await()
     }
 
-    private suspend fun getIdTokenInternal(auth: FirebaseAuth, credential: PhoneAuthCredential): String {
+    private suspend fun getIdTokenInternal(auth: FirebaseAuth, credential: PhoneAuthCredential): String? {
         return suspendCoroutine { continuation ->
-            val callback = OnCompleteListener<GetTokenResult> { tokenResult ->
-                if (tokenResult.isSuccessful) {
-                    val idToken = tokenResult.result?.token
-                    idToken?.let { continuation.resume(idToken) }
-                } else {
-                    continuation.resume("")
-                }
-            }
+            val callback = OnCompleteListener<GetTokenResult> { tokenResult -> continuation.resume(tokenResult.result?.token) }
 
             auth.signInWithCredential(credential).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
