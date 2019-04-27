@@ -8,6 +8,7 @@ import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.justdoit.yoda.api.UserService
+import com.justdoit.yoda.api.MessageService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
@@ -18,6 +19,7 @@ object APIClient {
     private const val TEST_API_URL = "https://jsonplaceholder.typicode.com"
 
     val userService: UserService = create(UserService::class.java)
+    val messageService: MessageService = create(MessageService::class.java)
     //TODO 各Serviceの追加
 
     private lateinit var retrofit: Retrofit
