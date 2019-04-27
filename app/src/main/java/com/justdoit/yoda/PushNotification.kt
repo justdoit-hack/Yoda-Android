@@ -43,13 +43,10 @@ class PushNotification: FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         super.onMessageReceived(remoteMessage)
-        val data = remoteMessage?.data ?: return
-        val notification = remoteMessage.notification ?: return
-
-        this.sendNotification(notification, data)
+        remoteMessage?.data?.let { this.sendNotification(it) }
     }
 
-    private fun sendNotification(remoteNotification: RemoteMessage.Notification, data: Map<String, String>) {
+    private fun sendNotification(data: Map<String, String>) {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -63,8 +60,8 @@ class PushNotification: FirebaseMessagingService() {
         } else {
             NotificationCompat.Builder(this, this.channelId)
         }.apply {
-            this.setContentTitle(remoteNotification.title)
-            this.setContentText(remoteNotification.body)
+            this.setContentTitle(data["title"])
+            this.setContentText(data["body"])
             this.setSmallIcon(R.drawable.ic_launcher_foreground)
             this.setSound(defaultSoundUri)
             this.setContentIntent(pendingIntent)
