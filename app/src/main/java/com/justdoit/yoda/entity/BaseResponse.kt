@@ -12,4 +12,8 @@ data class BaseResponse<T> (
     val error: ErrorResponse? = null
 )
 
+data class OkayResponse (
+    val ok: Int
+)
+
 
