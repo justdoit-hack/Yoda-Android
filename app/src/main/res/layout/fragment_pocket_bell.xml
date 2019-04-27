@@ -1,14 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".ui.PocketBellFragment">
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+            tools:context=".ui.PocketBellFragment"
+            android:background="@color/bg_pocketbell_fragment">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="264dp"
+                android:layout_height="167dp"
+                android:background="@drawable/pocketbell_body_back"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_display_pocketbell"
+                    android:layout_width="238dp"
+                    android:layout_height="95dp"
+                    android:background="@drawable/pocketbell_body_front"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/team_code"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_pocketbell_logo"
+                        android:textColor="@color/logo_pocketbell_fragment"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0"
+                        app:layout_constraintBottom_toTopOf="@id/display_pocket_bell"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintEnd_toEndOf="@id/display_pocket_bell"/>
+
+                <EditText
+                        android:id="@+id/display_pocket_bell"
+                        android:layout_width="200dp"
+                        android:layout_height="61dp"
+                        android:lines="2"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/text_size_pocketbell"
+                        android:paddingHorizontal="@dimen/medium"
+                        android:background="@drawable/pocketbell_display_bg"
+                        tools:text="根性で乗り切れ"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintVertical_bias="0.7"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/pocketbell_sync_btn"
+                    app:layout_constraintTop_toBottomOf="@id/container_display_pocketbell"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="@id/container_display_pocketbell"
+                    app:layout_constraintEnd_toEndOf="@id/container_display_pocketbell"/>
+
+            <Button android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/pocketbell_left_btn"
+                    app:layout_constraintTop_toBottomOf="@id/container_display_pocketbell"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@id/container_display_pocketbell"
+                    app:layout_constraintEnd_toEndOf="@id/container_display_pocketbell"/>
+
+            <Button android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:background="@drawable/pocketbell_right_btn"
+                    app:layout_constraintTop_toBottomOf="@id/container_display_pocketbell"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.9"
+                    app:layout_constraintStart_toStartOf="@id/container_display_pocketbell"
+                    app:layout_constraintEnd_toEndOf="@id/container_display_pocketbell"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
