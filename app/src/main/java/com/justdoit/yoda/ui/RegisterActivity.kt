@@ -1,20 +1,21 @@
 package com.justdoit.yoda.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.iid.FirebaseInstanceId
 import com.justdoit.yoda.R
-import com.justdoit.yoda.utils.FirebaseAuthUtil
+import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.databinding.ActivityRegisterBinding
 import com.justdoit.yoda.viewmodel.RegisterViewModel
-import kotlinx.android.synthetic.main.activity_register.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -43,6 +44,18 @@ class RegisterActivity : AppCompatActivity(), ActivityCompat.OnRequestPermission
     }
 
     fun finishLogin() {
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+            task.takeIf { it.isSuccessful }?.let {
+                val registerToken = it.result?.token ?: return@let
+                val authToken = SessionManager.instance.authToken ?: return@let
+                GlobalScope.launch {
+                    val res = this@RegisterActivity.viewModel.userRepository.registerNotificationToken(authToken, registerToken).await() ?: return@launch
+                    if (res.hasError) {
+                        Log.e(TAG, res.error.toString())
+                    }
+                }
+            }
+        }
         this.startActivity(Intent(this, MainActivity::class.java))
     }
 
@@ -54,5 +67,9 @@ class RegisterActivity : AppCompatActivity(), ActivityCompat.OnRequestPermission
                 this.showToast(this.getText(R.string.toast_permission_denied))
             }
         }
+    }
+
+    companion object {
+        const val TAG = "RegisterActivity"
     }
 }

@@ -1,5 +1,6 @@
 package com.justdoit.yoda.api
 
+import com.justdoit.yoda.entity.OkayResponse
 import com.justdoit.yoda.entity.UserResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -26,4 +27,11 @@ interface UserService {
     fun fetchUser(
         @Query("authToken") authToken: String
     ): Call<UserResponse>
+
+    @FormUrlEncoded
+    @POST("users/notification/registerToken")
+    fun registerNotificationToken(
+        @Field("authToken") authToken: String,
+        @Field("registerToken") registerToken: String
+    ): Call<OkayResponse>
 }

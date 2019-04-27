@@ -24,10 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <service
-                android:name=".api.MyFirebaseMessagingService"
-                android:permission="android.permission.INTERNET">
+        <service android:name=".PushNotification"
+                 android:permission="android.permission.INTERNET">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
