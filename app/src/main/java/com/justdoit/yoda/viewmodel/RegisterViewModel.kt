@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class RegisterViewModel(app: Application): AndroidViewModel(app) {
     private val firebaseAuthService = FirebaseAuthService()
     private val firebaseAuthUtil = FirebaseAuthUtil()
-    private val userRepository = UserRepository.getInstance()
+    val userRepository = UserRepository.getInstance()
 
     val statusText: ObservableField<String> = ObservableField()
 

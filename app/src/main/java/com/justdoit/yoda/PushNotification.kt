@@ -1,11 +1,11 @@
 package com.justdoit.yoda
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
@@ -22,8 +22,10 @@ class PushNotification: FirebaseMessagingService() {
     private val userRepository: UserRepository by lazy {
         UserRepository.getInstance()
     }
-    private val context = this.applicationContext
-    private val notificationManager = this.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    private val notificationManager: NotificationManager by lazy {
+        this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
     private val channelId = "yoda_channel"
     private val title = "yoda"
 
@@ -49,7 +51,7 @@ class PushNotification: FirebaseMessagingService() {
 
     private fun sendNotification(remoteNotification: RemoteMessage.Notification, data: Map<String, String>) {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-        val intent = Intent(this.context, MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent,
@@ -59,15 +61,17 @@ class PushNotification: FirebaseMessagingService() {
         val notificationBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             this.getNotificationBuilder(this.channelId, this.title)
         } else {
-            NotificationCompat.Builder(this.context, this.channelId)
+            NotificationCompat.Builder(this, this.channelId)
         }.apply {
             this.setContentTitle(remoteNotification.title)
             this.setContentText(remoteNotification.body)
-            this.setSmallIcon(R.drawable.notification_template_icon_bg)
+            this.setSmallIcon(R.drawable.ic_launcher_foreground)
             this.setSound(defaultSoundUri)
             this.setContentIntent(pendingIntent)
             this.setWhen(System.currentTimeMillis())
             this.setAutoCancel(true)
+            this.setDefaults(Notification.DEFAULT_ALL)
+            this.setPriority(NotificationManager.IMPORTANCE_HIGH)
         }
 
         notificationManager.notify(0, notificationBuilder.build())
@@ -75,7 +79,7 @@ class PushNotification: FirebaseMessagingService() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getNotificationBuilder(channelId: String, title: String): NotificationCompat.Builder {
-        val channel = NotificationChannel(channelId, title, NotificationManager.IMPORTANCE_DEFAULT)
+        val channel = NotificationChannel(channelId, title, NotificationManager.IMPORTANCE_HIGH)
         notificationManager.createNotificationChannel(channel)
         return NotificationCompat.Builder(this.applicationContext, channelId)
     }
