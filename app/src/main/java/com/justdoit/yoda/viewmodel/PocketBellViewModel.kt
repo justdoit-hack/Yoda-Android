@@ -22,6 +22,7 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     private val firebaseAuthUtil by lazy { FirebaseAuthUtil() }
     val userRepository by lazy { UserRepository.getInstance() }
     val statusDisplay: ObservableField<DisplayInfo> = ObservableField()
+    val statusUserPhoneNumber: ObservableField<String> = ObservableField()
     private var page = -1
 
     var flagLoadingFinish = false
@@ -34,8 +35,8 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     val displayDeniedPermission = DisplayInfo("権限を得られませんでした\n再認証してください", loadingColor)
 
     val displays = listOf(
-        DisplayInfo("頑張れば不可能は無い", Color.parseColor("#EFEDE4")),
-        DisplayInfo("最強になれ", Color.parseColor("#EFEDE4"))
+        DisplayInfo("0", Color.parseColor("#EFEDE4")),
+        DisplayInfo("1", Color.parseColor("#EFEDE4"))
     )
 
     val displayUniqueLoadings = listOf(
@@ -48,13 +49,15 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     )
 
     init {
-        val statusInit = DisplayInfo("確認中...", loadingColor)
+        val statusInit = DisplayInfo("ポケテル♪", Color.parseColor("#C6B399"))
         statusDisplay.set(statusInit)
+        statusUserPhoneNumber.set("")
         page = -1
         flagLoadingFinish = false
     }
 
     fun startPocketBell() {
+        statusUserPhoneNumber.set("#${SessionManager.instance.user?.inAppPhoneNo}")
         page = 0
         changePage(page)
     }
@@ -87,7 +90,20 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
         statusDisplay.set(displayDeniedPermission)
     }
 
+    // 最初にこいつを呼んでスタート
     fun doSmsAuth(fragment: PocketBellFragment) {
+        // もう登録されてたらUserデータ取得してポケベル起動
+        if (SessionManager.instance.isRegistered()) {
+            GlobalScope.launch {
+                val res =
+                    this@PocketBellViewModel.userRepository.fetchUser(SessionManager.instance.authToken!!).await()?.takeUnless { it.hasError }?.body
+                        ?: return@launch
+                SessionManager.instance.login(res.user)
+                startPocketBell()
+            }
+            return
+        }
+
         val phoneNumber = firebaseAuthUtil.getPhoneNumber() ?: run {
             fragment.requestPermission()
             return

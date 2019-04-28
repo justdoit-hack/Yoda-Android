@@ -47,6 +47,35 @@
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintEnd_toEndOf="@id/display_pocket_bell"/>
 
+                <ImageView
+                        android:id="@+id/frame_display_pocket_bell"
+                        android:layout_width="200dp"
+                        android:layout_height="61dp"
+                        android:src="@drawable/pocketbell_display_bg"
+                        android:background="@{viewModel.statusDisplay.get().colorBG}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintVertical_bias="0.7"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:background="#EFEDE4"/>
+
+                <TextView
+                        android:id="@+id/display_pocket_bell_phone_number"
+                        android:layout_width="0dp"
+                        android:layout_height="16dp"
+                        android:lines="1"
+                        android:textStyle="bold"
+                        android:gravity="center|start"
+                        android:textSize="@dimen/text_size_pocketbell_logo"
+                        android:paddingHorizontal="@dimen/medium"
+                        android:text="@{viewModel.statusUserPhoneNumber.get()}"
+                        app:layout_constraintTop_toTopOf="@id/frame_display_pocket_bell"
+                        app:layout_constraintBottom_toTopOf="@id/display_pocket_bell"
+                        app:layout_constraintStart_toStartOf="@id/frame_display_pocket_bell"
+                        app:layout_constraintEnd_toEndOf="@id/frame_display_pocket_bell"
+                        tools:text="根性で乗り切れ"/>
+
                 <TextView
                         android:id="@+id/display_pocket_bell"
                         android:layout_width="0dp"
@@ -56,25 +85,12 @@
                         android:gravity="center|start"
                         android:textSize="@dimen/text_size_pocketbell"
                         android:paddingHorizontal="@dimen/medium"
-                        android:background="@{viewModel.statusDisplay.get().colorBG}"
                         android:text="@{viewModel.statusDisplay.get().text}"
-                        app:layout_constraintTop_toTopOf="@id/frame_display_pocket_bell"
+                        app:layout_constraintTop_toBottomOf="@id/display_pocket_bell_phone_number"
                         app:layout_constraintBottom_toBottomOf="@id/frame_display_pocket_bell"
                         app:layout_constraintStart_toStartOf="@id/frame_display_pocket_bell"
                         app:layout_constraintEnd_toEndOf="@id/frame_display_pocket_bell"
-                        tools:text="根性で乗り切れ"
-                        tools:background="#EFEDE4"/>
-
-                <ImageView
-                        android:id="@+id/frame_display_pocket_bell"
-                        android:layout_width="200dp"
-                        android:layout_height="61dp"
-                        android:background="@drawable/pocketbell_display_bg"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintVertical_bias="0.7"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        tools:text="根性で乗り切れ"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

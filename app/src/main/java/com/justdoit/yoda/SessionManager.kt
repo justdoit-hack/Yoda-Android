@@ -25,7 +25,6 @@ class SessionManager private constructor() {
         return this.prefs.getString(this.authTokenKey, null)
     }
 
-
     fun login(user: User) {
         this.user = user
         this.authToken = user.authToken ?: return

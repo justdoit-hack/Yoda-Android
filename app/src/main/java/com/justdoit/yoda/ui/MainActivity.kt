@@ -13,11 +13,4 @@ class MainActivity : AppCompatActivity() {
         this.setContentView(R.layout.activity_main)
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        if (!SessionManager.instance.isRegistered()) {
-//            this.startActivity(Intent(this, RegisterActivity::class.java))
-//        }
-//    }
-
 }

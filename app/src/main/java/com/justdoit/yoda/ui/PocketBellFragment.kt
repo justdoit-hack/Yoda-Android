@@ -45,6 +45,8 @@ class PocketBellFragment : Fragment() {
             viewModel.doSmsAuth(this)
         }
 
+        viewModel.doSmsAuth(this)
+
         return binding.root
     }
 
