@@ -3,6 +3,10 @@
         xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.MessageListFragment">
 
+    <data>
+        <variable name="viewModel" type="com.justdoit.yoda.viewmodel.MessageListViewModel"/>
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -16,7 +20,10 @@
                     android:id="@+id/message_list"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="#EFEDE4"
+                    android:background="@color/color_bg_main"
+                    android:paddingBottom="85dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +38,29 @@
                 android:layout_gravity="bottom"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:fabAlignmentMode="center"
-                app:hideOnScroll="true"
-                app:backgroundTint="#C6B299">
+                app:fabAlignmentMode="end"
+                app:hideOnScroll="false"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:backgroundTint="@color/color_main">
+
+            <ImageView
+                    android:id="@+id/my_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/medium"
+                    android:src="@drawable/circle"
+                    tools:src="@drawable/circle"/>
+
+            <TextView
+                    android:id="@+id/my_in_app_phone_no_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/medium"
+                    android:text="#1 991 332"
+                    tools:text="#1 991 332"/>
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -41,8 +68,9 @@
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/black"
-                android:src="@drawable/ic_add_white_24dp"
+                android:backgroundTint="@color/color_main"
+                android:src="@drawable/ic_add_black_24dp"
+                android:onClick="@{(view) -> viewModel.onClickFab(view)}"
                 app:layout_anchor="@id/bottom_app_bar"
                 app:fabSize="normal"
                 app:borderWidth="0dp"/>

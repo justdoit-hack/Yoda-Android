@@ -10,7 +10,8 @@ data class MessageEntity(
     val originalBody: String,
     val parsed: String,
     val createdAt: String,
-    val updatedAt: String
+    val updatedAt: String,
+    val sendUser: User?
 )
 
 data class MessagesResponse(

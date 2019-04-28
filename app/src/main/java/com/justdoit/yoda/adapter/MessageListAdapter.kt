@@ -1,27 +1,19 @@
 package com.justdoit.yoda.adapter
 
 import android.annotation.SuppressLint
-import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.justdoit.yoda.R
-import com.justdoit.yoda.Yoda
 import com.justdoit.yoda.databinding.ItemMessageBinding
 import com.justdoit.yoda.entity.MessageEntity
-import com.justdoit.yoda.ui.MessageListFragment
-import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.*
 
 
 private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MessageEntity>() {
@@ -42,6 +34,7 @@ class MessageListAdapter : ListAdapter<MessageEntity, MessageListAdapter.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val entity = getItem(position)
         holder.getBinding()?.entity = entity
+        holder.getBinding()?.setFromInAppPhoneNoText(entity.sendUser?.inAppPhoneNo ?: "#ﾋﾂｳﾁ")
         holder.getBinding()?.receiveTimeText = parseFromISO8601(entity.updatedAt)
         holder.getBinding()?.itemMessage?.setOnClickListener {
             Log.d("MESSAGE", position.toString())

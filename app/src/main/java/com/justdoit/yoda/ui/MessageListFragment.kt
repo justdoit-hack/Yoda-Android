@@ -1,16 +1,13 @@
 package com.justdoit.yoda.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.justdoit.yoda.R
@@ -48,10 +45,16 @@ class MessageListFragment : Fragment() {
             false
         ) as FragmentListBinding
 
+        binding.viewModel = viewModel
+
         val sessionManager = SessionManager.instance
         authToken = sessionManager.authToken
 
-        observeMessageList(limit, offset)
+        authToken?.let {
+            viewModel.item.observe(this, Observer { list ->
+                messageListAdapter.submitList(list)
+            })
+        }
 
         val linearLayoutManager = LinearLayoutManager(activity)
         binding.messageList.apply {
@@ -61,35 +64,28 @@ class MessageListFragment : Fragment() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
-                    val firstPosition = linearLayoutManager.findFirstVisibleItemPosition()
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE && adapter!!.itemCount != childCount + firstPosition) {
-                        binding.fab.show()
-                    } else {
+                    val firstPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+                    if ((newState == RecyclerView.SCROLL_STATE_SETTLING || newState == RecyclerView.SCROLL_STATE_DRAGGING) && firstPosition != 0) {
                         binding.fab.hide()
+                    } else {
+                        binding.fab.show()
                     }
                 }
             })
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            observeMessageList(limit, offset)
+            fetchMessageList(limit, offset)
             binding.swipeRefreshLayout.isRefreshing = false
-        }
-
-        binding.fab.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_listFragment_to_sendFragment)
         }
 
         return binding.root
     }
 
-    private fun observeMessageList(limit: Int?, offset: Int?) {
+    private fun fetchMessageList(limit: Int?, offset: Int?) {
         authToken?.let {
-            viewModel.getMessageList(limit, offset, it).observe(this, Observer { list ->
-                messageListAdapter.submitList(list)
-            })
+            viewModel.getMessageList(limit, offset, it)
         }
-
     }
 
 }
