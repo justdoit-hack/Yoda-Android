@@ -63,7 +63,7 @@
 
             <Button android:layout_width="42dp"
                     android:layout_height="42dp"
-                    android:background="@drawable/pocketbell_sync_btn"
+                    android:background="@drawable/pocketbell_sync_btn_ripple"
                     app:layout_constraintTop_toBottomOf="@id/container_display_pocketbell"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.1"
@@ -72,7 +72,7 @@
 
             <Button android:layout_width="42dp"
                     android:layout_height="42dp"
-                    android:background="@drawable/pocketbell_left_btn"
+                    android:background="@drawable/pocketbell_left_btn_ripple"
                     app:layout_constraintTop_toBottomOf="@id/container_display_pocketbell"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -81,7 +81,7 @@
 
             <Button android:layout_width="42dp"
                     android:layout_height="42dp"
-                    android:background="@drawable/pocketbell_right_btn"
+                    android:background="@drawable/pocketbell_right_btn_ripple"
                     app:layout_constraintTop_toBottomOf="@id/container_display_pocketbell"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.9"
