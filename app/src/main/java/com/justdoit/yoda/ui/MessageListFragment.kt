@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.justdoit.yoda.R
 import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.adapter.MessageListAdapter
@@ -34,11 +33,6 @@ class MessageListFragment : Fragment() {
 
     private val messageListAdapter = MessageListAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +45,8 @@ class MessageListFragment : Fragment() {
         ) as FragmentListBinding
 
         binding.viewModel = viewModel
+
+        binding.toolbar.title = "メッセージ" //FIXME 文言と文字色の修正
 
         val sessionManager = SessionManager.instance
         authToken = sessionManager.authToken
@@ -66,18 +62,6 @@ class MessageListFragment : Fragment() {
         binding.messageList.apply {
             layoutManager = linearLayoutManager
             adapter = messageListAdapter
-
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    val firstPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
-                    if ((newState == RecyclerView.SCROLL_STATE_SETTLING || newState == RecyclerView.SCROLL_STATE_DRAGGING) && firstPosition != 0) {
-                        binding.fab.hide()
-                    } else {
-                        binding.fab.show()
-                    }
-                }
-            })
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -95,7 +79,7 @@ class MessageListFragment : Fragment() {
     }
 
     // 世界の幕開けだ・・・！
-    fun beginningWorld() {
+    private fun beginningWorld() {
 
         // get the center for the clipping circle
         val cx = binding.frameNextStage.measuredWidth / 2
@@ -106,8 +90,6 @@ class MessageListFragment : Fragment() {
 
         // create the animation (the final radius is zero)
         val anim = ViewAnimationUtils.createCircularReveal(binding.frameNextStage, cx, cy, initialRadius.toFloat(), 0f)
-
-        binding.frameNextStage.visibility = View.VISIBLE
 
         // make the view invisible when the animation is done
         anim.addListener(object : AnimatorListenerAdapter() {
