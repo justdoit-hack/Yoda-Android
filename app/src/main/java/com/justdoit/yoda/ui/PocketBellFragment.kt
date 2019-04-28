@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.justdoit.yoda.R
 import com.justdoit.yoda.databinding.FragmentPocketBellBinding
+import com.justdoit.yoda.viewmodel.PocketBellViewModel
 
 class PocketBellFragment : Fragment() {
+    private val viewModel: PocketBellViewModel by lazy {
+        ViewModelProviders.of(this).get(PocketBellViewModel::class.java)
+    }
 
     lateinit var binding: FragmentPocketBellBinding
 
@@ -28,7 +33,8 @@ class PocketBellFragment : Fragment() {
             false
         ) as FragmentPocketBellBinding
 
-        // Inflate the layout for this fragment
+        binding.viewModel = viewModel
+
         return binding.root
     }
 
