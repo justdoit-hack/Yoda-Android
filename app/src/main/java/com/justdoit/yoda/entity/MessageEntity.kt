@@ -5,7 +5,7 @@ data class MessageEntity(
     val toUserId: Int,
     val fromUserId: Int?,
     val fromPhoneNo: String?,
-    val sourceType: Int,
+    val sourceType: SourceTypeEnum,
     val isNotified: Boolean,
     val originalBody: String,
     val parsed: String,
@@ -24,7 +24,8 @@ data class MessageResponse(
     val message: MessageEntity?
 )
 
-enum class SourceTypeEnum(num: Int) {
+enum class SourceTypeEnum(val num: Int) {
     API(0),
-    ASTERISK(1)
+    ASTERISK(1),
+    ANONYMOUS(2)
 }
