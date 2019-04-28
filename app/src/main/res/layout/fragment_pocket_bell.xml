@@ -43,12 +43,13 @@
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintEnd_toEndOf="@id/display_pocket_bell"/>
 
-                <EditText
+                <TextView
                         android:id="@+id/display_pocket_bell"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:lines="2"
+                        android:lines="3"
                         android:ellipsize="end"
+                        android:gravity="center|start"
                         android:textSize="@dimen/text_size_pocketbell"
                         android:paddingHorizontal="@dimen/medium"
                         android:background="#eeeeee"
