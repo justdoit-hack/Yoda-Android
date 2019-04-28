@@ -78,7 +78,9 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button android:layout_width="42dp"
+            <Button
+                    android:id="@+id/btn_reload"
+                    android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:background="@drawable/pocketbell_sync_btn_ripple"
                     app:layout_constraintTop_toBottomOf="@id/container_display_pocketbell"

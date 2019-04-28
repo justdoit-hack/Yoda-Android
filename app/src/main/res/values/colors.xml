@@ -7,4 +7,6 @@
     <color name="bg_pocketbell_fragment">#222222</color>
 
     <color name="logo_pocketbell_fragment">#868686</color>
+
+    <color name="color_loading_pocketbell">#4859B1</color>
 </resources>
