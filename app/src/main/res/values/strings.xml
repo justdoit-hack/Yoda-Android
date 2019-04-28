@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Yoda</string>
 
+    <string name="team_code">Just do it !</string>
+
     <string name="toast_permission_denied">電話番号認証のために許可が必要です。</string>
     <string name="toast_firebase_auth_failed">電話番号の認証に失敗しました。</string>
     <string name="hello_blank_fragment">空のブランチやで〜！</string>
