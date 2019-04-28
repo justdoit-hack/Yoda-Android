@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_extra">2dp</dimen>
+    <dimen name="small">4dp</dimen>
+    <dimen name="medium_extra">6dp</dimen>
+    <dimen name="medium">8dp</dimen>
+    <dimen name="large_extra">12dp</dimen>
+    <dimen name="large">16dp</dimen>
+
+    <dimen name="text_size_pocketbell">12sp</dimen>
+    <dimen name="text_size_pocketbell_logo">8sp</dimen>
+</resources>
