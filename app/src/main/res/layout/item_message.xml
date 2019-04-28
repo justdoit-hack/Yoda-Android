@@ -1,29 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable name="fromInAppPhoneNoText" type="String"/>
+        <variable name="receiveTimeText" type="String"/>
         <variable name="entity" type="com.justdoit.yoda.entity.MessageEntity"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_message"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/medium"
+            android:paddingEnd="@dimen/medium"
+            android:paddingTop="@dimen/large"
+            android:paddingBottom="@dimen/large">
+
+        <ImageView
+                android:id="@+id/from_user_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle"
+                android:backgroundTint="#1F2238"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/from_in_app_phone_no_text"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:backgroundTint="#1F2238"/>
 
         <TextView
-                android:id="@+id/text_id"
-                android:layout_width="0dp"
+                android:id="@+id/from_in_app_phone_no_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{entity.originalBody}"
-                android:padding="8dp"
+                android:text="@{fromInAppPhoneNoText}"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:textColor="@android:color/black"
+                android:layout_marginStart="@dimen/medium"
+                app:layout_constraintTop_toTopOf="@+id/from_user_icon"
+                app:layout_constraintStart_toEndOf="@+id/from_user_icon"
+                tools:text="#1 220 991"/>
+
+        <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{receiveTimeText}"
+                android:textSize="18sp"
+                android:backgroundTint="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/from_in_app_phone_no_text"
+                tools:text="2019/4/25 20:03"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/medium"
+                android:background="@drawable/radius_view_corner"
+                app:layout_constraintTop_toBottomOf="@+id/from_in_app_phone_no_text"
+                app:layout_constraintStart_toEndOf="@+id/from_user_icon"
+                app:layout_constraintEnd_toEndOf="@+id/text_date"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                    android:id="@+id/message_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/medium_extra"
+                    android:text="@{entity.originalBody}"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    tools:text="536422222222222222222223665758585858"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
