@@ -45,14 +45,24 @@
 
                 <EditText
                         android:id="@+id/display_pocket_bell"
-                        android:layout_width="200dp"
-                        android:layout_height="61dp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:lines="2"
                         android:ellipsize="end"
                         android:textSize="@dimen/text_size_pocketbell"
                         android:paddingHorizontal="@dimen/medium"
+                        android:background="#eeeeee"
+                        app:layout_constraintTop_toTopOf="@id/frame_display_pocket_bell"
+                        app:layout_constraintBottom_toBottomOf="@id/frame_display_pocket_bell"
+                        app:layout_constraintStart_toStartOf="@id/frame_display_pocket_bell"
+                        app:layout_constraintEnd_toEndOf="@id/frame_display_pocket_bell"
+                        tools:text="根性で乗り切れ"/>
+
+                <ImageView
+                        android:id="@+id/frame_display_pocket_bell"
+                        android:layout_width="200dp"
+                        android:layout_height="61dp"
                         android:background="@drawable/pocketbell_display_bg"
-                        tools:text="根性で乗り切れ"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
