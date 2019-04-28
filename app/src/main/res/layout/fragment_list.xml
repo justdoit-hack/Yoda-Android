@@ -18,16 +18,12 @@
             <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/app_bar"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_width="match_parent"
-                    android:theme="@style/ToolbarTheme">
+                    android:layout_width="match_parent">
 
                 <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
                         android:layout_height="?attr/actionBarSize"
-                        android:layout_width="match_parent"
-                        app:layout_collapseMode="pin"
-                        android:theme="@style/ToolbarTheme"
-                        app:popupTheme="@style/Theme.AppCompat.Light"/>
+                        android:layout_width="match_parent"/>
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -53,8 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="bottom"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:theme="@style/ToolbarTheme"
+
                     app:fabAlignmentMode="end"
                     app:hideOnScroll="false"
                     app:layout_scrollFlags="scroll|enterAlways"

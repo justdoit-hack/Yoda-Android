@@ -29,7 +29,6 @@ class PocketBellFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().actionBar?.hide()
     }
 
     @SuppressLint("ClickableViewAccessibility")
