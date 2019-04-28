@@ -1,11 +1,12 @@
 package com.justdoit.yoda.ui
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -23,11 +24,13 @@ class PocketBellFragment : Fragment() {
     }
 
     lateinit var binding: FragmentPocketBellBinding
+    lateinit var animCircle: Animator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,10 +48,40 @@ class PocketBellFragment : Fragment() {
             viewModel.doSmsAuth(this)
         }
 
+        var pointTouchX = 0f
+        var pointTouchY = 0f
+        binding.frameScreen.setOnTouchListener { view, motionEvent ->
+            if (SessionManager.instance.isLogin()) {
+                if (motionEvent.action == MotionEvent.ACTION_DOWN) {
+                    pointTouchX = motionEvent.x
+                    pointTouchY = motionEvent.y
+                    binding.frameNextStage.visibility = View.INVISIBLE
+                } else if (motionEvent.action == MotionEvent.ACTION_UP) {
+                    if (getDistance(pointTouchX, pointTouchY, motionEvent.x, motionEvent.y) > 300) {
+                        binding.frameNextStage.visibility = View.VISIBLE
+                        evolutionNextStage(pointTouchX, pointTouchY)
+                        //animCircle.cancel()
+                    }
+                }
+            }
+            return@setOnTouchListener true
+        }
+
+        binding.frameBody.setOnClickListener {
+            //FIXME クリックキャッチアップのため泣く泣く実装
+        }
+
         viewModel.doSmsAuth(this)
 
         return binding.root
     }
+
+    fun getDistance(x1: Float, y1: Float, x2: Float, y2: Float): Float {
+        val x = (x2 - x1) * (x2 - x1)
+        val y = (y2 - y1) * (y2 - y1)
+        return Math.sqrt((x + y).toDouble()).toFloat()
+    }
+
 
     private fun doSmsAuth() = this.viewModel.doSmsAuth(this)
 
@@ -75,7 +108,11 @@ class PocketBellFragment : Fragment() {
         this.viewModel.startPocketBell()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 266) {
             when (grantResults[0]) {
@@ -85,5 +122,32 @@ class PocketBellFragment : Fragment() {
                 }
             }
         }
+    }
+
+    // コイツは進化する。次のステージへ・・・！
+    fun evolutionNextStage(pointX: Float, pointY: Float) {
+        // get the center for the clipping circle
+        val cx = binding.frameNextStage.measuredWidth / 2
+        val cy = binding.frameNextStage.measuredHeight / 2
+
+        // get the final radius for the clipping circle
+        val finalRadius = Math.max(binding.frameNextStage.width, binding.frameNextStage.height)
+
+        // create the animator for this view (the start radius is zero)
+        animCircle = ViewAnimationUtils.createCircularReveal(
+            binding.frameNextStage,
+            pointX.toInt(),
+            pointY.toInt(),
+            0f,
+            finalRadius.toFloat()
+        )
+
+        animCircle.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
+                //binding.frameNextStage.visibility = View.INVISIBLE
+            }
+        })
+        animCircle.start()
     }
 }
