@@ -32,6 +32,9 @@
             android:label="fragment_result"
             android:name="com.justdoit.yoda.ui.PocketBellFragment"
             tools:layout="@layout/fragment_pocket_bell">
+        <action
+                android:id="@+id/action_pocketbell_to_list"
+                app:destination="@id/listFragment"/>
     </fragment>
 
     <fragment

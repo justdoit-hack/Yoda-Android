@@ -10,6 +10,7 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.google.firebase.iid.FirebaseInstanceId
 import com.justdoit.yoda.R
 import com.justdoit.yoda.SessionManager
@@ -126,10 +127,6 @@ class PocketBellFragment : Fragment() {
 
     // コイツは進化する。次のステージへ・・・！
     fun evolutionNextStage(pointX: Float, pointY: Float) {
-        // get the center for the clipping circle
-        val cx = binding.frameNextStage.measuredWidth / 2
-        val cy = binding.frameNextStage.measuredHeight / 2
-
         // get the final radius for the clipping circle
         val finalRadius = Math.max(binding.frameNextStage.width, binding.frameNextStage.height)
 
@@ -145,7 +142,7 @@ class PocketBellFragment : Fragment() {
         animCircle.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
-                //binding.frameNextStage.visibility = View.INVISIBLE
+                Navigation.findNavController(binding.frameNextStage).navigate(R.id.action_pocketbell_to_list)
             }
         })
         animCircle.start()
