@@ -90,6 +90,7 @@ class MessageListFragment : Fragment() {
 
         // create the animation (the final radius is zero)
         val anim = ViewAnimationUtils.createCircularReveal(binding.frameNextStage, cx, cy, initialRadius.toFloat(), 0f)
+        anim.startDelay = 100
 
         // make the view invisible when the animation is done
         anim.addListener(object : AnimatorListenerAdapter() {
