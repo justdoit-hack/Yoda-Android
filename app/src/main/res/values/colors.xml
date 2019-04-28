@@ -4,6 +4,12 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="color_text_main">#333333</color>
+    <color name="color_text_light">#EFEDE4</color>
+    <color name="color_main">#C6B399</color>
+    <color name="color_bg_main">#EFEDE4</color>
+    <color name="color_accent">#C1272D</color>
+
     <color name="bg_pocketbell_fragment">#222222</color>
 
     <color name="logo_pocketbell_fragment">#868686</color>
