@@ -2,6 +2,7 @@ package com.justdoit.yoda.ui
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ class MessageListFragment : Fragment() {
 
     private val messageListAdapter = MessageListAdapter()
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,12 +53,14 @@ class MessageListFragment : Fragment() {
         val sessionManager = SessionManager.instance
         authToken = sessionManager.authToken
 
-        authToken?.let {
-            viewModel.item.observe(this, Observer { list ->
-                beginningWorld()
-                messageListAdapter.submitList(list)
-            })
-        }
+        viewModel.item.observe(this, Observer { list ->
+            beginningWorld()
+            messageListAdapter.submitList(list)
+        })
+
+        viewModel.myInAppPhoneNo.observe(this, Observer {
+            binding.myInAppPhoneNoText.text = "#$it"
+        })
 
         val linearLayoutManager = LinearLayoutManager(activity)
         binding.messageList.apply {
