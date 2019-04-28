@@ -7,73 +7,101 @@
         <variable name="viewModel" type="com.justdoit.yoda.viewmodel.MessageListViewModel"/>
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh_layout"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/message_list"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/swipe_refresh_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/message_list"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/color_bg_main"
+                        android:paddingBottom="85dp"
+                        android:clipToPadding="false"
+                        android:overScrollMode="never"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <com.google.android.material.bottomappbar.BottomAppBar
+                    android:id="@+id/bottom_app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="bottom"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:fabAlignmentMode="end"
+                    app:hideOnScroll="false"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:backgroundTint="@color/color_main">
+
+                <ImageView
+                        android:id="@+id/my_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/medium"
+                        android:src="@drawable/circle"
+                        tools:src="@drawable/circle"/>
+
+                <TextView
+                        android:id="@+id/my_in_app_phone_no_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/medium"
+                        android:text="#1 991 332"
+                        tools:text="#1 991 332"/>
+
+            </com.google.android.material.bottomappbar.BottomAppBar>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/color_main"
+                    android:src="@drawable/ic_add_black_24dp"
+                    android:onClick="@{(view) -> viewModel.onClickFab(view)}"
+                    app:layout_anchor="@id/bottom_app_bar"
+                    app:fabSize="normal"
+                    app:borderWidth="0dp"/>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frame_next_stage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_main"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+            <ImageView
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@color/color_bg_main"
-                    android:paddingBottom="85dp"
-                    android:clipToPadding="false"
-                    android:overScrollMode="never"
+                    android:src="@drawable/title_logo"
+                    android:layout_margin="64dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottom_app_bar"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_gravity="bottom"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:fabAlignmentMode="end"
-                app:hideOnScroll="false"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:backgroundTint="@color/color_main">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                    android:id="@+id/my_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/medium"
-                    android:src="@drawable/circle"
-                    tools:src="@drawable/circle"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                    android:id="@+id/my_in_app_phone_no_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="@dimen/medium"
-                    android:text="#1 991 332"
-                    tools:text="#1 991 332"/>
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/color_main"
-                android:src="@drawable/ic_add_black_24dp"
-                android:onClick="@{(view) -> viewModel.onClickFab(view)}"
-                app:layout_anchor="@id/bottom_app_bar"
-                app:fabSize="normal"
-                app:borderWidth="0dp"/>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

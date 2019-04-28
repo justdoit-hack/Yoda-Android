@@ -126,7 +126,7 @@ class PocketBellFragment : Fragment() {
     }
 
     // コイツは進化する。次のステージへ・・・！
-    fun evolutionNextStage(pointX: Float, pointY: Float) {
+    private fun evolutionNextStage(pointX: Float, pointY: Float) {
         // get the final radius for the clipping circle
         val finalRadius = Math.max(binding.frameNextStage.width, binding.frameNextStage.height)
 
