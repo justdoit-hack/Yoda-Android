@@ -1,8 +1,11 @@
 package com.justdoit.yoda.ui
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -23,6 +26,8 @@ class MessageListFragment : Fragment() {
         ViewModelProviders.of(this.requireActivity()).get(MessageListViewModel::class.java)
     }
 
+    lateinit var binding: FragmentListBinding
+
     private var limit: Int? = null
     private var offset: Int? = null
     private var authToken: String? = null
@@ -38,7 +43,7 @@ class MessageListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_list,
             container,
@@ -52,6 +57,7 @@ class MessageListFragment : Fragment() {
 
         authToken?.let {
             viewModel.item.observe(this, Observer { list ->
+                beginningWorld()
                 messageListAdapter.submitList(list)
             })
         }
@@ -86,6 +92,33 @@ class MessageListFragment : Fragment() {
         authToken?.let {
             viewModel.getMessageList(limit, offset, it)
         }
+    }
+
+    // 世界の幕開けだ・・・！
+    fun beginningWorld() {
+
+        // get the center for the clipping circle
+        val cx = binding.frameNextStage.measuredWidth / 2
+        val cy = binding.frameNextStage.measuredHeight / 2
+
+        // get the initial radius for the clipping circle
+        val initialRadius = binding.frameNextStage.width
+
+        // create the animation (the final radius is zero)
+        val anim = ViewAnimationUtils.createCircularReveal(binding.frameNextStage, cx, cy, initialRadius.toFloat(), 0f)
+
+        binding.frameNextStage.visibility = View.VISIBLE
+
+        // make the view invisible when the animation is done
+        anim.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
+                binding.frameNextStage.visibility = View.INVISIBLE
+            }
+        })
+
+        // start the animation
+        anim.start()
     }
 
 }
