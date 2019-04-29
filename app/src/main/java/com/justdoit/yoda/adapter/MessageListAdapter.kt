@@ -1,7 +1,6 @@
 package com.justdoit.yoda.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.justdoit.yoda.databinding.ItemMessageBinding
 import com.justdoit.yoda.entity.MessageEntity
 import com.justdoit.yoda.ui.MessageListFragmentDirections
 import java.text.SimpleDateFormat
-
 
 private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MessageEntity>() {
     override fun areContentsTheSame(oldItem: MessageEntity, newItem: MessageEntity): Boolean =
