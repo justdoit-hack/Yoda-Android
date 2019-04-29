@@ -1,22 +1,17 @@
 package com.justdoit.yoda
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context.TELEPHONY_SERVICE
-import android.content.pm.PackageManager
-import android.telephony.TelephonyManager
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.justdoit.yoda.api.UserService
+import com.justdoit.yoda.adapter.CustomJsonAdapter
 import com.justdoit.yoda.api.MessageService
-import com.squareup.moshi.Moshi
+import com.justdoit.yoda.api.UserService
+import com.justdoit.yoda.entity.SourceTypeEnum
+import com.squareup.moshi.*
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.lang.reflect.Type
 
 object APIClient {
     private const val API_URL = "https://yoda.wintu.dev/api/"
-    private const val TEST_API_URL = "https://jsonplaceholder.typicode.com"
 
     val userService: UserService = create(UserService::class.java)
     val messageService: MessageService = create(MessageService::class.java)
@@ -25,7 +20,10 @@ object APIClient {
     private lateinit var retrofit: Retrofit
 
     fun <S> create(serviceClass: Class<S>): S {
-        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        val moshi = Moshi.Builder()
+            .add(CustomJsonAdapter.Factory)
+            .add(KotlinJsonAdapterFactory())
+            .build()
 
         // create retrofit
         retrofit = Retrofit.Builder()

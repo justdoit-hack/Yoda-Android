@@ -11,7 +11,7 @@ interface MessageService {
     @FormUrlEncoded
     @POST("messages/create")
     fun sendMessage(
-        @Query("authToken") authToken: String,
+        @Field("authToken") authToken: String,
         @Field("body") body: String,
         @Field("isAnonymous") isAnonymous: Boolean,
         @Field("toInAppPhoneNo") toInAppPhoneNo: String
