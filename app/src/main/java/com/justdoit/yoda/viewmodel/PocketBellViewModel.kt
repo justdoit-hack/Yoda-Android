@@ -37,8 +37,8 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     val displayDeniedPermission = DisplayInfo("権限を得られませんでした\n再認証してください", loadingColor)
 
     val displays = listOf(
-        DisplayInfo("7141047480438034ｰ32042104511285", Color.parseColor("#EFEDE4")),
-        DisplayInfo("まだメッセージがないよ", Color.parseColor("#EFEDE4"))
+        DisplayInfo("", Color.parseColor("#EFEDE4")),
+        DisplayInfo("", Color.parseColor("#EFEDE4"))
     )
 
     val displayUniqueLoadings = listOf(
@@ -61,6 +61,8 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     fun startPocketBell() {
         statusUserPhoneNumber.set("#${SessionManager.instance.user?.inAppPhoneNo}")
         getLatestMessage()
+        page = 0
+        changePage(page)
     }
 
     fun clickLeftBtn() {
@@ -149,17 +151,15 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
                     messageRepository.getReceiveMessageHistory(null, null, it).await() ?: return@launch
                 messageResponse.takeUnless { it.hasError }?.let {
                     val response = it.body ?: return@let
-                    val latestOriginalBody = response.messages?.get(0)?.originalBody ?: "まだメッセージがないよ"
-                    val latestParseBody = response.messages?.get(0)?.parsed ?: "まだメッセージがないよ"
+                    val latestOriginalBody = response.messages?.get(0)?.originalBody ?: ""
+                    val latestParseBody = response.messages?.get(0)?.parsed ?: ""
                     displays[0].text = latestOriginalBody
                     displays[1].text = latestParseBody
-//                    val displays = listOf(
-//                        DisplayInfo(latestOriginalBody, Color.parseColor("#EFEDE4")),
-//                        DisplayInfo(latestParseBody, Color.parseColor("#EFEDE4"))
-//                    )
-//                    statusDisplay.set(displays[0])
-                    page = 0
-                    changePage(page)
+                    val displays = listOf(
+                        DisplayInfo(latestOriginalBody, Color.parseColor("#EFEDE4")),
+                        DisplayInfo(latestParseBody, Color.parseColor("#EFEDE4"))
+                    )
+                    statusDisplay.set(displays[0])
                 }
             }
         }
