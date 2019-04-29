@@ -16,7 +16,6 @@ import com.justdoit.yoda.entity.MessageEntity
 import com.justdoit.yoda.entity.SourceTypeEnum
 import com.justdoit.yoda.ui.MessageListFragmentDirections
 
-
 private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MessageEntity>() {
     override fun areContentsTheSame(oldItem: MessageEntity, newItem: MessageEntity): Boolean =
         oldItem == newItem
