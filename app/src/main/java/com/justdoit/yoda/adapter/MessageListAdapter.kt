@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.justdoit.yoda.R
 import com.justdoit.yoda.databinding.ItemMessageBinding
 import com.justdoit.yoda.entity.MessageEntity
+import com.justdoit.yoda.ui.MessageListFragmentDirections
 import java.text.SimpleDateFormat
 
 
@@ -34,11 +35,11 @@ class MessageListAdapter : ListAdapter<MessageEntity, MessageListAdapter.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val entity = getItem(position)
         holder.getBinding()?.entity = entity
-        holder.getBinding()?.setFromInAppPhoneNoText(entity.sendUser?.inAppPhoneNo ?: "#ﾋﾂｳﾁ")
+        holder.getBinding()?.setFromInAppPhoneNoText(entity.fromUser?.inAppPhoneNo ?: "#ﾋﾂｳﾁ")
         holder.getBinding()?.receiveTimeText = parseFromISO8601(entity.updatedAt)
         holder.getBinding()?.itemMessage?.setOnClickListener {
-            Log.d("MESSAGE", position.toString())
-            Navigation.findNavController(it).navigate(R.id.action_listFragment_to_sendFragment)
+            val fragment = MessageListFragmentDirections.actionListFragmentToSendFragment(entity)
+            Navigation.findNavController(it).navigate(fragment)
         }
     }
 

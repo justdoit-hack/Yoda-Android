@@ -5,5 +5,7 @@
 
     <string name="toast_permission_denied">電話番号認証のために許可が必要です。</string>
     <string name="toast_firebase_auth_failed">電話番号の認証に失敗しました。</string>
+    <string name="toast_send_message_failed">メッセージの送信に失敗しました</string>
+    <string name="toast_send_message_success">メッセージを送信しました!</string>
     <string name="hello_blank_fragment">空のブランチやで〜！</string>
 </resources>
