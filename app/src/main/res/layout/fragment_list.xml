@@ -67,7 +67,7 @@
                         android:id="@+id/my_in_app_phone_no_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:text="@{viewModel.getMyPhoneNumber}"
                         android:includeFontPadding="false"
                         android:textColor="@android:color/black"
