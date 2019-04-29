@@ -1,5 +1,8 @@
 package com.justdoit.yoda.entity
 
+import java.io.Serializable
+
+
 data class MessageEntity(
     val id: Int,
     val toUserId: Int,
@@ -11,8 +14,8 @@ data class MessageEntity(
     val parsed: String,
     val createdAt: String,
     val updatedAt: String,
-    val sendUser: User?
-)
+    val fromUser: User?
+): Serializable
 
 data class MessagesResponse(
     val ok: Int,

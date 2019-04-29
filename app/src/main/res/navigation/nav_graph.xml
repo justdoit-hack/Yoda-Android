@@ -11,7 +11,7 @@
             android:label="fragment_result"
             android:name="com.justdoit.yoda.ui.MessageListFragment"
             tools:layout="@layout/fragment_list">
-        <action android:id="@+id/action_listFragment_to_sendFragment" app:destination="@id/sendFragment"/>
+        <action android:id="@+id/action_listFragment_to_sendFragment" app:destination="@+id/sendFragment"/>
         <action android:id="@+id/action_listFragment_to_settingFragment" app:destination="@id/settingFragment"/>
         <action android:id="@+id/action_listFragment_to_pocketbellFragment" app:destination="@id/pocketbellFragment"/>
     </fragment>
@@ -21,6 +21,8 @@
             android:label="fragment_result"
             android:name="com.justdoit.yoda.ui.SendFragment"
             tools:layout="@layout/fragment_send">
+        <argument android:name="replyMessage" app:argType="com.justdoit.yoda.entity.MessageEntity" app:nullable="true"
+                  android:defaultValue="@null"/>
     </fragment>
 
     <fragment
