@@ -23,7 +23,6 @@
                 android:id="@+id/to_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:padding="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -32,9 +31,12 @@
                     android:id="@+id/input_in_app_phone_no_container"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:padding="@dimen/large"
+                    android:visibility="visible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone">
 
                 <TextView
                         android:id="@+id/text_to"
@@ -42,16 +44,21 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:textSize="20sp"
-                        android:text="TO"/>
+                        android:textSize="14sp"
+                        android:includeFontPadding="true"
+                        android:text="TO ："/>
 
                 <TextView
                         android:id="@+id/text_hash"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/text_to"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:textSize="30sp"
+                        app:layout_constraintStart_toStartOf="@id/text_to"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintTop_toTopOf="@id/text_input_send_phone_no"
+                        app:layout_constraintBottom_toBottomOf="@id/text_input_send_phone_no"
+                        android:textSize="18sp"
+                        android:includeFontPadding="true"
                         android:text="#"/>
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -60,69 +67,133 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="7"
+                        android:focusable="true"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toEndOf="@id/text_hash"
                         app:layout_constraintTop_toBottomOf="@id/text_to"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/reply_message_container"
+                    android:id="@+id/reply_message"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_item_message_phone"
+                    android:padding="@dimen/large"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible">
 
                 <ImageView
-                        android:id="@+id/reply_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/circle"
-                        tools:src="@drawable/circle"
+                        android:id="@+id/from_user_icon"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/ic_user_api"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintVertical_bias="0.0"/>
 
                 <TextView
-                        android:id="@+id/reply_in_app_phone_no_text"
+                        android:id="@+id/from_in_app_phone_no_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="# 123456"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
+                        android:text="#1929383"
+                        android:textSize="14sp"
+                        android:includeFontPadding="false"
                         android:textColor="@android:color/black"
                         android:layout_marginStart="@dimen/medium"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/reply_icon"/>
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintBottom_toTopOf="@id/frame_message"
+                        app:layout_constraintStart_toEndOf="@id/from_user_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="#1 220 991"/>
 
                 <TextView
-                        android:id="@+id/reply_message_text"
+                        android:id="@+id/text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2019/12/31 19:19"
+                        android:textSize="14sp"
+                        android:textColor="@color/color_main"
+                        android:includeFontPadding="false"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="2019/4/25 20:03"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/frame_message"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/medium_extra"
-                        android:textColor="@android:color/white"
-                        android:textSize="22sp"
-                        android:background="@drawable/radius_view_corner"
-                        android:layout_marginStart="@dimen/medium"
-                        android:text="hogehoge"
-                        android:textColorHint="#7f8c8d"
-                        app:layout_constraintStart_toEndOf="@id/reply_icon"
-                        app:layout_constraintTop_toBottomOf="@id/reply_in_app_phone_no_text"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        android:layout_marginTop="@dimen/small"
+                        android:background="@drawable/frame_black"
+                        android:paddingHorizontal="@dimen/medium"
+                        app:layout_constraintTop_toBottomOf="@id/from_in_app_phone_no_text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/from_in_app_phone_no_text"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                            android:id="@+id/reply_message_text"
+                            android:layout_width="0dp"
+                            android:layout_marginVertical="@dimen/medium"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/bg_pocketbell_fragment"
+                            android:textSize="18sp"
+                            tools:text="53642222222222233333333333333332"
+                            app:layout_constraintEnd_toStartOf="@id/translate_btn"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/translate_btn"
+                            android:layout_width="36dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintStart_toEndOf="@id/reply_message_text"
+                            app:layout_constraintVertical_bias="0.0"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_margin="@dimen/medium"
+                                android:background="@drawable/ic_translate_gray_24dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:paddingTop="@dimen/medium"
-                android:paddingBottom="@dimen/medium"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
+                android:id="@+id/send_message_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/large"
                 android:background="@color/color_main"
                 app:layout_constraintTop_toBottomOf="@id/to_container"
                 app:layout_constraintStart_toStartOf="parent"
@@ -130,10 +201,9 @@
 
             <ImageView
                     android:id="@+id/my_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/circle"
-                    tools:src="@drawable/circle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_user_api"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
@@ -141,9 +211,8 @@
                     android:id="@+id/my_in_app_phone_no_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="# 123456"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:text="#123456"
+                    android:textSize="14sp"
                     android:textColor="@android:color/black"
                     android:layout_marginStart="@dimen/medium"
                     app:layout_constraintTop_toTopOf="parent"
@@ -153,13 +222,14 @@
                     android:id="@+id/message_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/medium_extra"
-                    android:textColor="@android:color/white"
-                    android:textSize="22sp"
-                    android:background="@drawable/radius_view_corner"
+                    android:padding="@dimen/medium"
+                    android:layout_marginTop="@dimen/small"
+                    android:textColor="@color/bg_pocketbell_fragment"
+                    android:textSize="18sp"
+                    android:background="@drawable/frame_black"
                     android:layout_marginStart="@dimen/medium"
-                    android:hint="hogehogheohogeho"
-                    android:textColorHint="#7f8c8d"
+                    android:hint="メッセージを入力"
+                    android:textColorHint="@color/cardview_shadow_start_color"
                     android:inputType="number"
                     android:imeOptions="actionSend"
                     app:layout_constraintStart_toEndOf="@id/my_icon"

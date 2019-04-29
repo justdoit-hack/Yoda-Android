@@ -45,7 +45,7 @@
                         android:textColor="@color/logo_pocketbell_fragment"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="1.0"
-                        app:layout_constraintBottom_toTopOf="@id/display_pocket_bell"
+                        app:layout_constraintBottom_toTopOf="@id/frame_display_pocket_bell"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintEnd_toEndOf="@id/display_pocket_bell"/>
@@ -133,20 +133,21 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-                android:id="@+id/swipe_help_text"
+                android:id="@+id/swipe_help_image"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:src="@drawable/swipe_help"
                 android:visibility="@{viewModel.statusUserPhoneNumber.get().length!=0 ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="1.05"
+                app:layout_constraintVertical_bias="1.0"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintDimensionRatio="x,1:1"/>
 
         <ImageView
-                android:id="@+id/swipe_help_image"
+                android:id="@+id/swipe_help_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/swipe"
