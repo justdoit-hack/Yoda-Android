@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="false" android:state_pressed="false">
+        <shape android:shape="oval">
+            <solid android:color="@color/color_accent"/>
+            <stroke android:width="2dp" android:color="@color/color_main"/>
+        </shape>
+    </item>
+
+    <item
+            android:drawable="@drawable/ic_priority_high_black_24dp"
+            android:top="@dimen/medium"
+            android:bottom="@dimen/medium"
+            android:left="@dimen/medium"
+            android:right="@dimen/medium"/>
+</layer-list>

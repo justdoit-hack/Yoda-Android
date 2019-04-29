@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import com.justdoit.yoda.R
 import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.entity.MessageEntity
+import com.justdoit.yoda.entity.User
 import com.justdoit.yoda.repository.MessageRepository
 import com.justdoit.yoda.repository.UserRepository
 import kotlinx.coroutines.GlobalScope
@@ -59,6 +60,10 @@ class MessageListViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun onReady() {
         isLoading.set(false)
+    }
+
+    fun getMyPhoneNumber(): String {
+        return "# ${SessionManager.instance.user!!.inAppPhoneNo}"
     }
 
 }

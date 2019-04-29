@@ -1,6 +1,6 @@
 package com.justdoit.yoda.adapter
 
-import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +9,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.justdoit.yoda.GeneralSystem
 import com.justdoit.yoda.R
 import com.justdoit.yoda.databinding.ItemMessageBinding
 import com.justdoit.yoda.entity.MessageEntity
+import com.justdoit.yoda.entity.SourceTypeEnum
 import com.justdoit.yoda.ui.MessageListFragmentDirections
-import java.text.SimpleDateFormat
 
 private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MessageEntity>() {
     override fun areContentsTheSame(oldItem: MessageEntity, newItem: MessageEntity): Boolean =
@@ -33,8 +34,35 @@ class MessageListAdapter : ListAdapter<MessageEntity, MessageListAdapter.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val entity = getItem(position)
         holder.getBinding()?.entity = entity
-        holder.getBinding()?.setFromInAppPhoneNoText(entity.fromUser?.inAppPhoneNo ?: "#ﾋﾂｳﾁ")
-        holder.getBinding()?.receiveTimeText = parseFromISO8601(entity.updatedAt)
+        val phoneText = entity.fromUser?.inAppPhoneNo ?: "非通知"
+        holder.getBinding()?.setFromInAppPhoneNoText("# $phoneText")
+        holder.getBinding()?.receiveTimeText = GeneralSystem.parseFromISO8601(entity.updatedAt)
+
+        if (entity.sourceType == SourceTypeEnum.API) {
+            // スマホアプリ
+            holder.getBinding()?.fromUserIcon?.setImageResource(R.drawable.ic_user_api)
+        } else if (entity.sourceType == SourceTypeEnum.ASTERISK) {
+            // 固定電話
+            holder.getBinding()?.fromUserIcon?.setImageResource(R.drawable.ic_user_phone)
+        } else if (entity.sourceType == SourceTypeEnum.ANONYMOUS) {
+            // 非通知
+            holder.getBinding()?.fromUserIcon?.setImageResource(R.drawable.ic_user_none)
+        }
+
+        holder.getBinding()?.frameMessage?.setBackgroundResource(R.drawable.frame_black)
+        holder.getBinding()?.messageText?.setTextColor(Color.parseColor("#333333"))
+        holder.getBinding()?.translateBtn?.setOnClickListener {
+            if (holder.getBinding()?.messageText?.text == entity.originalBody) {
+                holder.getBinding()?.frameMessage?.setBackgroundResource(R.drawable.frame_light)
+                holder.getBinding()?.messageText?.setTextColor(Color.parseColor("#C6B399"))
+                holder.getBinding()?.messageText?.text = entity.parsed
+            } else {
+                holder.getBinding()?.frameMessage?.setBackgroundResource(R.drawable.frame_black)
+                holder.getBinding()?.messageText?.setTextColor(Color.parseColor("#333333"))
+                holder.getBinding()?.messageText?.text = entity.originalBody
+            }
+        }
+
         holder.getBinding()?.itemMessage?.setOnClickListener {
             val fragment = MessageListFragmentDirections.actionListFragmentToSendFragment(entity)
             Navigation.findNavController(it).navigate(fragment)
@@ -53,13 +81,5 @@ class MessageListAdapter : ListAdapter<MessageEntity, MessageListAdapter.ViewHol
         fun getBinding(): ItemMessageBinding? {
             return mBinding
         }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun parseFromISO8601(dateString: String): String {
-        val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'")
-        val dt = df.parse(dateString)
-        val df2 = SimpleDateFormat("yyyy/MM/dd HH:mm")
-        return df2.format(dt)
     }
 }

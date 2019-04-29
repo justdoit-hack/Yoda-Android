@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="bottom"
-
+                    android:paddingHorizontal="@dimen/large"
                     app:fabAlignmentMode="end"
                     app:hideOnScroll="false"
                     app:layout_scrollFlags="scroll|enterAlways"
@@ -59,21 +59,20 @@
 
                 <ImageView
                         android:id="@+id/my_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/medium"
-                        android:src="@drawable/circle"
-                        tools:src="@drawable/circle"/>
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/ic_user_api"/>
 
                 <TextView
                         android:id="@+id/my_in_app_phone_no_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="@{viewModel.getMyPhoneNumber}"
+                        android:includeFontPadding="false"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
                         android:layout_marginStart="@dimen/medium"
-                        tools:text="#1991332"/>
+                        tools:text="#1 220 991"/>
 
             </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -95,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/color_main"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:visibility="invisible">
 
             <ImageView

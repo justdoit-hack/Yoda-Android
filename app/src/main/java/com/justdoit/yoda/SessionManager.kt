@@ -17,14 +17,14 @@ class SessionManager private constructor() {
     }
 
     var user: User? = null
-    var authToken: String? = "57b77dc3fa134abbbce2d529ff65f11b"
-//    var authToken: String?
-//    set(value) {
-//        this.prefs.edit().putString(this.authTokenKey, value).apply()
-//    }
-//    get() {
-//        return this.prefs.getString(this.authTokenKey, null)
-//    }
+    var authToken: String?
+        set(value) {
+            this.prefs.edit().putString(this.authTokenKey, value).apply()
+        }
+        get() {
+            return this.prefs.getString(this.authTokenKey, null)
+        }
+    //var authToken: String? = "57b77dc3fa134abbbce2d529ff65f11b"
 
     fun login(user: User) {
         this.user = user

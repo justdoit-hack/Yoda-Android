@@ -1,6 +1,7 @@
 package com.justdoit.yoda.ui
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,39 +14,81 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import com.justdoit.yoda.GeneralSystem
 import com.justdoit.yoda.R
 import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.Yoda
 import com.justdoit.yoda.databinding.FragmentSendBinding
+import com.justdoit.yoda.entity.SourceTypeEnum
+import com.justdoit.yoda.utils.OnBackKeyHandler
 import com.justdoit.yoda.viewmodel.SendViewModel
 
-class SendFragment : Fragment() {
+class SendFragment : Fragment(), OnBackKeyHandler {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(SendViewModel::class.java)
     }
 
+    lateinit var binding: FragmentSendBinding
+    lateinit var replyInAppPhoneNo: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentSendBinding>(inflater, R.layout.fragment_send, container, false)
+        binding = DataBindingUtil.inflate<FragmentSendBinding>(inflater, R.layout.fragment_send, container, false)
         binding.viewModel = this.viewModel
         SessionManager.instance.user?.let {
             binding.myInAppPhoneNoText.text = "# ${it.inAppPhoneNo}"
         }
+
+        showSoftInput(context!!, binding.messageText, 0)
+
+        binding.toolbar.title = "New Message"
+        binding.textInputSendPhoneNo.requestFocus()
+
         this.arguments?.let {
             val reply = SendFragmentArgs.fromBundle(it).replyMessage ?: return@let
-            val replyInAppPhoneNo = reply.fromUser?.inAppPhoneNo ?: return@let
+            replyInAppPhoneNo = reply.fromUser?.inAppPhoneNo ?: return@let
+
+            binding.toolbar.title = "Reply Message"
+            binding.messageText.requestFocus()
+
             binding.inputInAppPhoneNoContainer.visibility = View.GONE
-            binding.replyMessageContainer.visibility = View.VISIBLE
-            binding.replyInAppPhoneNoText.text = replyInAppPhoneNo
+            binding.replyMessage.visibility = View.VISIBLE
+            if (reply.sourceType == SourceTypeEnum.API) {
+                // スマホアプリ
+                binding.fromUserIcon.setImageResource(R.drawable.ic_user_api)
+            } else if (reply.sourceType == SourceTypeEnum.ASTERISK) {
+                // 固定電話
+                binding.fromUserIcon.setImageResource(R.drawable.ic_user_phone)
+            } else if (reply.sourceType == SourceTypeEnum.ANONYMOUS) {
+                // 非通知
+                binding.fromUserIcon.setImageResource(R.drawable.ic_user_none)
+            }
+            binding.fromInAppPhoneNoText.text = "# $replyInAppPhoneNo"
+            binding.textDate.text = GeneralSystem.parseFromISO8601(reply.updatedAt)
             binding.replyMessageText.text = reply.originalBody
+
+            binding.translateBtn.setOnClickListener {
+                if (binding.replyMessageText.text == reply.originalBody) {
+                    binding.frameMessage.setBackgroundResource(R.drawable.frame_light)
+                    binding.replyMessageText.setTextColor(Color.parseColor("#C6B399"))
+                    binding.replyMessageText.text = reply.parsed
+                } else {
+                    binding.frameMessage.setBackgroundResource(R.drawable.frame_black)
+                    binding.replyMessageText.setTextColor(Color.parseColor("#333333"))
+                    binding.replyMessageText.text = reply.originalBody
+                }
+            }
         }
         binding.messageText.setOnEditorActionListener { v, actionId, event ->
-            return@setOnEditorActionListener  when (actionId) {
+            return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
-                    val toInAppPhoneNo = (binding.textInputSendPhoneNo.text ?: binding.replyInAppPhoneNoText.text) ?: return@setOnEditorActionListener false
+                    val toInAppPhoneNo = (
+                            binding.textInputSendPhoneNo.text?.takeIf { it.isNotEmpty() }
+                                ?: replyInAppPhoneNo.takeIf { it.isNotEmpty() }
+                            ) ?: return@setOnEditorActionListener false
                     this.viewModel.postMessage(toInAppPhoneNo.toString(), v.text.toString())
                     true
                 }
@@ -73,5 +116,15 @@ class SendFragment : Fragment() {
     private fun sendFailed(message: String?) {
         val errorMessage = message ?: this.getString(R.string.toast_send_message_failed)
         Toast.makeText(this.context, errorMessage, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onBackPressed(): Boolean {
+        Navigation.findNavController(binding.toolbar).popBackStack()
+        return true
+    }
+
+    fun showSoftInput(context: Context, view: View, flags: Int): Boolean {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager? ?: return false
+        return imm.showSoftInput(view, flags)
     }
 }
