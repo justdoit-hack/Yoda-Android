@@ -48,8 +48,10 @@ class SendFragment : Fragment(), OnBackKeyHandler {
         binding.messageText.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
-                    val toInAppPhoneNo = (binding.textInputSendPhoneNo.text ?: binding.replyInAppPhoneNoText.text)
-                        ?: return@setOnEditorActionListener false
+                    val toInAppPhoneNo = (
+                            binding.textInputSendPhoneNo.text?.takeIf { it.isNotEmpty() }
+                                ?: binding.replyInAppPhoneNoText.text?.takeIf { it.isNotEmpty() }
+                            ) ?: return@setOnEditorActionListener false
                     this.viewModel.postMessage(toInAppPhoneNo.toString(), v.text.toString())
                     true
                 }
