@@ -1,10 +1,10 @@
 package com.justdoit.yoda.viewmodel
 
+import android.R
 import android.app.Activity
 import android.app.Application
 import android.graphics.Color
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.view.animation.AnimationUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import com.justdoit.yoda.SessionManager
@@ -18,6 +18,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     private val firebaseAuthService by lazy { FirebaseAuthService() }
     private val firebaseAuthUtil by lazy { FirebaseAuthUtil() }
@@ -29,7 +30,6 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
 
     var flagLoadingFinish = false
 
-    @RequiresApi(Build.VERSION_CODES.M)
     val loadingColor = Color.parseColor("#8899F2")
     val displayLoadsingSMS = DisplayInfo("SMS認証中...", loadingColor)
     val displayFailed = DisplayInfo("認証失敗\n再認証してください", loadingColor)

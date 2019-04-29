@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{fromInAppPhoneNoText}"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:includeFontPadding="false"
                 android:textColor="@android:color/black"
                 android:layout_marginStart="@dimen/medium"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{receiveTimeText}"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textColor="@color/color_main"
                 android:includeFontPadding="false"
                 app:layout_constraintTop_toTopOf="parent"
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{entity.originalBody}"
                     android:textColor="@color/bg_pocketbell_fragment"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     tools:text="53642222222222223333333333333333333333333332"
                     app:layout_constraintEnd_toStartOf="@id/translate_btn"
                     app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

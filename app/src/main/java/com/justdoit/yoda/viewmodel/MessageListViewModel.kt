@@ -58,7 +58,7 @@ class MessageListViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun getMyPhoneNumber(): String {
-        return "#${SessionManager.instance.user!!.inAppPhoneNo}"
+        return "# ${SessionManager.instance.user!!.inAppPhoneNo}"
     }
 
 }
