@@ -14,22 +14,20 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/line_bottom_black"
+            android:background="@drawable/bg_item_message_phone"
             android:padding="@dimen/large">
 
         <ImageView
                 android:id="@+id/from_user_icon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="@drawable/circle"
-                android:backgroundTint="#1F2238"
+                android:background="@drawable/ic_user_api"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintVertical_bias="0.0"
-                tools:backgroundTint="#1F2238"/>
+                app:layout_constraintVertical_bias="0.0"/>
 
         <TextView
                 android:id="@+id/from_in_app_phone_no_text"
@@ -68,6 +66,7 @@
                 android:id="@+id/frame_message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
                 android:background="@drawable/frame_black"
                 app:layout_constraintTop_toBottomOf="@id/from_in_app_phone_no_text"
                 app:layout_constraintBottom_toBottomOf="parent"

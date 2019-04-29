@@ -79,6 +79,8 @@ class MessageListFragment : Fragment() {
         val anim = ViewAnimationUtils.createCircularReveal(binding.frameNextStage, cx, cy, initialRadius.toFloat(), 0f)
         anim.startDelay = 100
 
+        binding.frameNextStage.visibility = View.VISIBLE
+
         // make the view invisible when the animation is done
         anim.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {

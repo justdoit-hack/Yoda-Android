@@ -1,7 +1,6 @@
 package com.justdoit.yoda.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.justdoit.yoda.R
 import com.justdoit.yoda.databinding.ItemMessageBinding
 import com.justdoit.yoda.entity.MessageEntity
+import com.justdoit.yoda.entity.SourceTypeEnum
 import com.justdoit.yoda.ui.MessageListFragmentDirections
 import java.text.SimpleDateFormat
 
@@ -35,8 +35,20 @@ class MessageListAdapter : ListAdapter<MessageEntity, MessageListAdapter.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val entity = getItem(position)
         holder.getBinding()?.entity = entity
-        holder.getBinding()?.setFromInAppPhoneNoText(entity.fromUser?.inAppPhoneNo ?: "#ﾋﾂｳﾁ")
+        holder.getBinding()?.setFromInAppPhoneNoText(entity.fromUser?.inAppPhoneNo ?: "#非通知")
         holder.getBinding()?.receiveTimeText = parseFromISO8601(entity.updatedAt)
+
+        if (entity.sourceType == SourceTypeEnum.API) {
+            // スマホアプリ
+            holder.getBinding()?.fromUserIcon?.setImageResource(R.drawable.ic_user_api)
+        } else if (entity.sourceType == SourceTypeEnum.ASTERISK) {
+            // 固定電話
+            holder.getBinding()?.fromUserIcon?.setImageResource(R.drawable.ic_user_phone)
+        } else if (entity.sourceType == SourceTypeEnum.ANONYMOUS) {
+            // 非通知
+            holder.getBinding()?.fromUserIcon?.setImageResource(R.drawable.ic_user_none)
+        }
+
         holder.getBinding()?.itemMessage?.setOnClickListener {
             val fragment = MessageListFragmentDirections.actionListFragmentToSendFragment(entity)
             Navigation.findNavController(it).navigate(fragment)
