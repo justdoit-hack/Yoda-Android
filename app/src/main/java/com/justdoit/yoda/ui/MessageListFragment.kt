@@ -56,9 +56,9 @@ class MessageListFragment : Fragment() {
             messageListAdapter.submitList(list)
         })
 
-        viewModel.myInAppPhoneNo.observe(this, Observer {
-            binding.myInAppPhoneNoText.text = "#$it"
-        })
+        sessionManager.user?.let {
+            binding.myInAppPhoneNoText.text = "#${it.inAppPhoneNo}"
+        }
 
         val linearLayoutManager = LinearLayoutManager(activity)
         binding.messageList.apply {

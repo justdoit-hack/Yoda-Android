@@ -17,32 +17,20 @@ import kotlinx.coroutines.launch
 
 class MessageListViewModel(app: Application) : AndroidViewModel(app) {
     private val messageRepository = MessageRepository.getInstance()
-    private val userRepository = UserRepository.getInstance()
 
     var isLoading = ObservableBoolean()
 
     private val _item = MutableLiveData<List<MessageEntity?>>()
     val item: LiveData<List<MessageEntity?>> = _item
 
-    private val _myInAppPhoneNo = MutableLiveData<String>()
-    val myInAppPhoneNo: LiveData<String> = _myInAppPhoneNo
-
     init {
         callGetMessageList()
-        callGetMyUserData()
     }
 
     private fun callGetMessageList() {
         val authToken = SessionManager.instance.authToken
         authToken?.let {
             this@MessageListViewModel.getMessageList(null, null, it)
-        }
-    }
-
-    private fun callGetMyUserData() {
-        val authToken = SessionManager.instance.authToken
-        authToken?.let {
-            this@MessageListViewModel.getMyUserData(authToken)
         }
     }
 
@@ -57,18 +45,6 @@ class MessageListViewModel(app: Application) : AndroidViewModel(app) {
                 _item.postValue(null)
             }
             onReady()
-        }
-    }
-
-    private fun getMyUserData(authToken: String) {
-        GlobalScope.launch {
-            val userResponse = userRepository.fetchUser(authToken).await() ?: return@launch
-            userResponse.takeUnless { it.hasError }?.let {
-                val response = it.body ?: return@let
-                _myInAppPhoneNo.postValue(response.user.inAppPhoneNo)
-            } ?: run {
-                _myInAppPhoneNo.postValue(null)
-            }
         }
     }
 
