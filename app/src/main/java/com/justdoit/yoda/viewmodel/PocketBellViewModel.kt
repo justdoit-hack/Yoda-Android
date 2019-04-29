@@ -9,6 +9,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.api.FirebaseAuthService
+import com.justdoit.yoda.repository.MessageRepository
 import com.justdoit.yoda.repository.UserRepository
 import com.justdoit.yoda.ui.PocketBellFragment
 import com.justdoit.yoda.utils.FirebaseAuthUtil
@@ -22,6 +23,7 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     private val firebaseAuthService by lazy { FirebaseAuthService() }
     private val firebaseAuthUtil by lazy { FirebaseAuthUtil() }
     val userRepository by lazy { UserRepository.getInstance() }
+    val messageRepository by lazy { MessageRepository.getInstance() }
     val statusDisplay: ObservableField<DisplayInfo> = ObservableField()
     val statusUserPhoneNumber: ObservableField<String> = ObservableField()
     private var page = -1
@@ -35,8 +37,8 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     val displayDeniedPermission = DisplayInfo("権限を得られませんでした\n再認証してください", loadingColor)
 
     val displays = listOf(
-        DisplayInfo("0", Color.parseColor("#EFEDE4")),
-        DisplayInfo("1", Color.parseColor("#EFEDE4"))
+        DisplayInfo("", Color.parseColor("#EFEDE4")),
+        DisplayInfo("", Color.parseColor("#EFEDE4"))
     )
 
     val displayUniqueLoadings = listOf(
@@ -58,6 +60,7 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
 
     fun startPocketBell() {
         statusUserPhoneNumber.set("#${SessionManager.instance.user?.inAppPhoneNo}")
+        getLatestMessage()
         page = 0
         changePage(page)
     }
@@ -141,6 +144,27 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
             callback.invoke()
         }
 
+    private fun getLatestMessage() {
+        SessionManager.instance.authToken?.let {
+            GlobalScope.launch {
+                val messageResponse =
+                    messageRepository.getReceiveMessageHistory(null, null, it).await() ?: return@launch
+                messageResponse.takeUnless { it.hasError }?.let {
+                    val response = it.body ?: return@let
+                    val latestOriginalBody = response.messages?.get(0)?.originalBody ?: ""
+                    val latestParseBody = response.messages?.get(0)?.parsed ?: ""
+                    displays[0].text = latestOriginalBody
+                    displays[1].text = latestParseBody
+                    val displays = listOf(
+                        DisplayInfo(latestOriginalBody, Color.parseColor("#EFEDE4")),
+                        DisplayInfo(latestParseBody, Color.parseColor("#EFEDE4"))
+                    )
+                    statusDisplay.set(displays[0])
+                }
+            }
+        }
+    }
+
     fun startUniqueLoading() = GlobalScope.launch {
         for (i in 0 until 100) {
             delay(200)
@@ -157,7 +181,7 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     data class DisplayInfo(
-        val text: String,
+        var text: String,
         val colorBG: Int
     )
 }
