@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable name="viewModel" type="com.justdoit.yoda.viewmodel.PocketBellViewModel"/>
     </data>
 
@@ -130,6 +131,33 @@
                     app:layout_constraintEnd_toEndOf="@id/container_display_pocketbell"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+                android:id="@+id/swipe_help_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/swipe_help"
+                android:visibility="@{viewModel.statusUserPhoneNumber.get().length!=0 ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1.05"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+                android:id="@+id/swipe_help_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/swipe"
+                android:padding="64dp"
+                android:visibility="@{viewModel.statusUserPhoneNumber.get().length!=0 ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/frame_next_stage"
