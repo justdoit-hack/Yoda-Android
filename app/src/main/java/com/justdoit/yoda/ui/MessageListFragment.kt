@@ -31,6 +31,8 @@ class MessageListFragment : Fragment() {
 
     private val messageListAdapter = MessageListAdapter()
 
+    var initFlag = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,12 +48,18 @@ class MessageListFragment : Fragment() {
 
         binding.toolbar.title = "Message" //FIXME 文言と文字色の修正
 
+        if (!initFlag) {
+            binding.frameNextStage.visibility = View.VISIBLE
+        }
+
         val sessionManager = SessionManager.instance
         authToken = sessionManager.authToken
 
         authToken?.let {
             viewModel.item.observe(this, Observer { list ->
-                beginningWorld()
+                if (!initFlag) {
+                    beginningWorld()
+                }
                 messageListAdapter.submitList(list)
             })
         }
@@ -79,12 +87,11 @@ class MessageListFragment : Fragment() {
         val anim = ViewAnimationUtils.createCircularReveal(binding.frameNextStage, cx, cy, initialRadius.toFloat(), 0f)
         anim.startDelay = 100
 
-        binding.frameNextStage.visibility = View.VISIBLE
-
         // make the view invisible when the animation is done
         anim.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
+                initFlag=true
                 binding.frameNextStage.visibility = View.INVISIBLE
             }
         })
