@@ -42,13 +42,17 @@ class SendFragment : Fragment(), OnBackKeyHandler {
             binding.myInAppPhoneNoText.text = "# ${it.inAppPhoneNo}"
         }
 
+        showSoftInput(context!!, binding.messageText, 0)
+
         binding.toolbar.title = "New Message"
+        binding.textInputSendPhoneNo.requestFocus()
 
         this.arguments?.let {
             val reply = SendFragmentArgs.fromBundle(it).replyMessage ?: return@let
             replyInAppPhoneNo = reply.fromUser?.inAppPhoneNo ?: return@let
 
             binding.toolbar.title = "Reply Message"
+            binding.messageText.requestFocus()
 
             binding.inputInAppPhoneNoContainer.visibility = View.GONE
             binding.replyMessage.visibility = View.VISIBLE
@@ -117,5 +121,10 @@ class SendFragment : Fragment(), OnBackKeyHandler {
     override fun onBackPressed(): Boolean {
         Navigation.findNavController(binding.toolbar).popBackStack()
         return true
+    }
+
+    fun showSoftInput(context: Context, view: View, flags: Int): Boolean {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager? ?: return false
+        return imm.showSoftInput(view, flags)
     }
 }
