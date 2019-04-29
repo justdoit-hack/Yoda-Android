@@ -27,8 +27,6 @@ class MessageListFragment : Fragment() {
 
     lateinit var binding: FragmentListBinding
 
-    private var limit: Int? = null
-    private var offset: Int? = null
     private var authToken: String? = null
 
     private val messageListAdapter = MessageListAdapter()
@@ -64,18 +62,7 @@ class MessageListFragment : Fragment() {
             adapter = messageListAdapter
         }
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            fetchMessageList(limit, offset)
-            binding.swipeRefreshLayout.isRefreshing = false
-        }
-
         return binding.root
-    }
-
-    private fun fetchMessageList(limit: Int?, offset: Int?) {
-        authToken?.let {
-            viewModel.getMessageList(limit, offset, it)
-        }
     }
 
     // 世界の幕開けだ・・・！

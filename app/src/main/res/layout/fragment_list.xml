@@ -31,7 +31,9 @@
                     android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="?attr/actionBarSize">
+                    android:layout_marginTop="?attr/actionBarSize"
+                    app:refreshing="@{viewModel.isLoading}"
+                    app:onRefreshListener="@{() -> viewModel.onRefresh()}">
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/message_list"
