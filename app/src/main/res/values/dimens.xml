@@ -7,6 +7,6 @@
     <dimen name="large_extra">12dp</dimen>
     <dimen name="large">16dp</dimen>
 
-    <dimen name="text_size_pocketbell">12sp</dimen>
-    <dimen name="text_size_pocketbell_logo">8sp</dimen>
+    <dimen name="text_size_pocketbell">14sp</dimen>
+    <dimen name="text_size_pocketbell_logo">10sp</dimen>
 </resources>

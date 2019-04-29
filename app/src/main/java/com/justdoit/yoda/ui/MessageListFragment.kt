@@ -16,10 +16,11 @@ import com.justdoit.yoda.R
 import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.adapter.MessageListAdapter
 import com.justdoit.yoda.databinding.FragmentListBinding
+import com.justdoit.yoda.utils.OnBackKeyHandler
 import com.justdoit.yoda.viewmodel.MessageListViewModel
 
 
-class MessageListFragment : Fragment() {
+class MessageListFragment : Fragment(), OnBackKeyHandler {
 
     private val viewModel: MessageListViewModel by lazy {
         ViewModelProviders.of(this.requireActivity()).get(MessageListViewModel::class.java)
@@ -30,6 +31,8 @@ class MessageListFragment : Fragment() {
     private var authToken: String? = null
 
     private val messageListAdapter = MessageListAdapter()
+
+    var initFlag = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,14 +47,20 @@ class MessageListFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        binding.toolbar.title = "ﾒｯｾｰｼﾞ" //FIXME 文言と文字色の修正
+        binding.toolbar.title = "Message" //FIXME 文言と文字色の修正
+
+        if (!initFlag) {
+            binding.frameNextStage.visibility = View.VISIBLE
+        }
 
         val sessionManager = SessionManager.instance
         authToken = sessionManager.authToken
 
         authToken?.let {
             viewModel.item.observe(this, Observer { list ->
-                beginningWorld()
+                if (!initFlag) {
+                    beginningWorld()
+                }
                 messageListAdapter.submitList(list)
             })
         }
@@ -83,12 +92,18 @@ class MessageListFragment : Fragment() {
         anim.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
+                initFlag = true
                 binding.frameNextStage.visibility = View.INVISIBLE
             }
         })
 
         // start the animation
         anim.start()
+    }
+
+    override fun onBackPressed(): Boolean {
+        activity!!.finish()
+        return true
     }
 
 }
