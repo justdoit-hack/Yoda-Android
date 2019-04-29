@@ -1,6 +1,7 @@
 package com.justdoit.yoda.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,20 @@ class MessageListAdapter : ListAdapter<MessageEntity, MessageListAdapter.ViewHol
         } else if (entity.sourceType == SourceTypeEnum.ANONYMOUS) {
             // 非通知
             holder.getBinding()?.fromUserIcon?.setImageResource(R.drawable.ic_user_none)
+        }
+
+        holder.getBinding()?.frameMessage?.setBackgroundResource(R.drawable.frame_black)
+        holder.getBinding()?.messageText?.setTextColor(Color.parseColor("#333333"))
+        holder.getBinding()?.translateBtn?.setOnClickListener {
+            if(holder.getBinding()?.messageText?.text==entity.originalBody) {
+                holder.getBinding()?.frameMessage?.setBackgroundResource(R.drawable.frame_light)
+                holder.getBinding()?.messageText?.setTextColor(Color.parseColor("#C6B399"))
+                holder.getBinding()?.messageText?.text = entity.parsed
+            }else{
+                holder.getBinding()?.frameMessage?.setBackgroundResource(R.drawable.frame_black)
+                holder.getBinding()?.messageText?.setTextColor(Color.parseColor("#333333"))
+                holder.getBinding()?.messageText?.text = entity.originalBody
+            }
         }
 
         holder.getBinding()?.itemMessage?.setOnClickListener {
