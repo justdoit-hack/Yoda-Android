@@ -44,7 +44,7 @@ class MessageListFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        binding.toolbar.title = "ﾒｯｾｰｼﾞ" //FIXME 文言と文字色の修正
+        binding.toolbar.title = "Message" //FIXME 文言と文字色の修正
 
         val sessionManager = SessionManager.instance
         authToken = sessionManager.authToken

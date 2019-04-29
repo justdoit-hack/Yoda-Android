@@ -60,6 +60,9 @@ class SendFragment : Fragment() {
             }
         })
 
+        //TODO 返信か新規かで分ける
+        binding.toolbar.title="Create"
+
         return binding.root
     }
 
