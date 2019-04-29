@@ -65,10 +65,11 @@
                 <TextView
                         android:id="@+id/display_pocket_bell_phone_number"
                         android:layout_width="0dp"
-                        android:layout_height="16dp"
+                        android:layout_height="18dp"
                         android:lines="1"
                         android:textStyle="bold"
                         android:gravity="center|start"
+                        android:layout_marginTop="@dimen/small"
                         android:textSize="@dimen/text_size_pocketbell_logo"
                         android:paddingHorizontal="@dimen/medium"
                         android:text="@{viewModel.statusUserPhoneNumber.get()}"
@@ -82,17 +83,18 @@
                         android:id="@+id/display_pocket_bell"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:lines="3"
+                        android:lines="2"
                         android:ellipsize="end"
                         android:gravity="center|start"
                         android:textSize="@dimen/text_size_pocketbell"
                         android:paddingHorizontal="@dimen/medium"
+                        android:layout_marginBottom="@dimen/small"
                         android:text="@{viewModel.statusDisplay.get().text}"
                         app:layout_constraintTop_toBottomOf="@id/display_pocket_bell_phone_number"
                         app:layout_constraintBottom_toBottomOf="@id/frame_display_pocket_bell"
                         app:layout_constraintStart_toStartOf="@id/frame_display_pocket_bell"
                         app:layout_constraintEnd_toEndOf="@id/frame_display_pocket_bell"
-                        tools:text="根性で乗り切れ"/>
+                        tools:text="根性で乗り切れあああああああああ"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

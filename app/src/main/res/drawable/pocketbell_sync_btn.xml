@@ -8,7 +8,7 @@
     </item>
 
     <item
-            android:drawable="@drawable/ic_power_settings_new_black_24dp"
+            android:drawable="@drawable/ic_sync_black_24dp"
             android:top="@dimen/small"
             android:bottom="@dimen/small"
             android:left="@dimen/small"
