@@ -15,10 +15,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+            <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/app_bar"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_width="match_parent">
+
+                <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_width="match_parent"/>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    app:refreshing="@{viewModel.isLoading}"
+                    app:onRefreshListener="@{() -> viewModel.onRefresh()}">
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/message_list"
@@ -27,21 +42,16 @@
                         android:background="@color/color_bg_main"
                         android:paddingBottom="85dp"
                         android:clipToPadding="false"
-                        android:overScrollMode="never"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        android:overScrollMode="never"/>
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.google.android.material.bottomappbar.BottomAppBar
                     android:id="@+id/bottom_app_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="bottom"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+
                     app:fabAlignmentMode="end"
                     app:hideOnScroll="false"
                     app:layout_scrollFlags="scroll|enterAlways"
@@ -87,7 +97,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/color_main"
                 android:visibility="visible"
-                tools:visibility="visible">
+                tools:visibility="invisible">
 
             <ImageView
                     android:layout_width="0dp"
@@ -98,7 +108,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
