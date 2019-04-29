@@ -18,12 +18,14 @@
             <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/app_bar"
                     android:layout_height="?attr/actionBarSize"
-                    android:layout_width="match_parent">
+                    android:layout_width="match_parent"
+                    android:fitsSystemWindows="true">
 
                 <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
                         android:layout_height="?attr/actionBarSize"
-                        android:layout_width="match_parent"/>
+                        android:layout_width="match_parent"
+                        app:layout_scrollFlags="scroll|enterAlways"/>
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,9 +33,9 @@
                     android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="?attr/actionBarSize"
                     app:refreshing="@{viewModel.isLoading}"
-                    app:onRefreshListener="@{() -> viewModel.onRefresh()}">
+                    app:onRefreshListener="@{() -> viewModel.onRefresh()}"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/message_list"
@@ -54,7 +56,7 @@
                     android:paddingHorizontal="@dimen/large"
                     app:fabAlignmentMode="end"
                     app:hideOnScroll="false"
-                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:layout_scrollFlags="scroll"
                     app:backgroundTint="@color/color_main">
 
                 <ImageView

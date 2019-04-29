@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import androidx.core.view.marginTop
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.justdoit.yoda.R
 import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.adapter.MessageListAdapter
@@ -69,6 +71,17 @@ class MessageListFragment : Fragment(), OnBackKeyHandler {
         binding.messageList.apply {
             layoutManager = linearLayoutManager
             adapter = messageListAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    val firstPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+                    if ((newState == RecyclerView.SCROLL_STATE_SETTLING || newState == RecyclerView.SCROLL_STATE_DRAGGING) && firstPosition != 0) {
+                        binding.fab.hide()
+                    } else {
+                        binding.fab.show()
+                    }
+                }
+            })
         }
 
         return binding.root
