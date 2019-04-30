@@ -16,8 +16,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.justdoit.yoda.GeneralSystem
+import com.justdoit.yoda.R.*
 import com.justdoit.yoda.SessionManager
-import com.justdoit.yoda.Yoda
 import com.justdoit.yoda.databinding.FragmentSendBinding
 import com.justdoit.yoda.entity.SourceTypeEnum
 import com.justdoit.yoda.utils.OnBackKeyHandler
@@ -39,7 +39,7 @@ class SendFragment : Fragment(), OnBackKeyHandler {
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            com.justdoit.yoda.R.layout.fragment_send,
+            layout.fragment_send,
             container,
             false
         )
@@ -67,13 +67,13 @@ class SendFragment : Fragment(), OnBackKeyHandler {
             binding.replyMessage.visibility = View.VISIBLE
             if (reply.sourceType == SourceTypeEnum.API) {
                 // スマホアプリ
-                binding.fromUserIcon.setImageResource(com.justdoit.yoda.R.drawable.ic_user_api)
+                binding.fromUserIcon.setImageResource(drawable.ic_user_api)
             } else if (reply.sourceType == SourceTypeEnum.ASTERISK) {
                 // 固定電話
-                binding.fromUserIcon.setImageResource(com.justdoit.yoda.R.drawable.ic_user_phone)
+                binding.fromUserIcon.setImageResource(drawable.ic_user_phone)
             } else if (reply.sourceType == SourceTypeEnum.ANONYMOUS) {
                 // 非通知
-                binding.fromUserIcon.setImageResource(com.justdoit.yoda.R.drawable.ic_user_none)
+                binding.fromUserIcon.setImageResource(drawable.ic_user_none)
             }
             binding.fromInAppPhoneNoText.text = "# $replyInAppPhoneNo"
             binding.textDate.text = GeneralSystem.parseFromISO8601(reply.updatedAt)
@@ -81,11 +81,11 @@ class SendFragment : Fragment(), OnBackKeyHandler {
 
             binding.translateBtn.setOnClickListener {
                 if (binding.replyMessageText.text == reply.originalBody) {
-                    binding.frameMessage.setBackgroundResource(com.justdoit.yoda.R.drawable.frame_light)
+                    binding.frameMessage.setBackgroundResource(drawable.frame_light)
                     binding.replyMessageText.setTextColor(Color.parseColor("#C6B399"))
                     binding.replyMessageText.text = reply.parsed
                 } else {
-                    binding.frameMessage.setBackgroundResource(com.justdoit.yoda.R.drawable.frame_black)
+                    binding.frameMessage.setBackgroundResource(drawable.frame_black)
                     binding.replyMessageText.setTextColor(Color.parseColor("#333333"))
                     binding.replyMessageText.text = reply.originalBody
                 }
@@ -117,13 +117,16 @@ class SendFragment : Fragment(), OnBackKeyHandler {
 
     private fun backToMainFragment(view: View) {
         binding.messageText.clearFocus()
-        (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(view.windowToken, 0)
-        Toast.makeText(this.context, com.justdoit.yoda.R.string.toast_send_message_success, Toast.LENGTH_LONG).show()
+        (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+            view.windowToken,
+            0
+        )
+        Toast.makeText(this.context, string.toast_send_message_success, Toast.LENGTH_LONG).show()
         Navigation.findNavController(view).popBackStack()
     }
 
     private fun sendFailed(message: String?) {
-        val errorMessage = message ?: this.getString(com.justdoit.yoda.R.string.toast_send_message_failed)
+        val errorMessage = message ?: this.getString(string.toast_send_message_failed)
         Toast.makeText(this.context, errorMessage, Toast.LENGTH_LONG).show()
     }
 
