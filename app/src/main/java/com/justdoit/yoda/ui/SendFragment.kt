@@ -1,5 +1,6 @@
 package com.justdoit.yoda.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -17,7 +18,6 @@ import androidx.navigation.Navigation
 import com.justdoit.yoda.GeneralSystem
 import com.justdoit.yoda.R
 import com.justdoit.yoda.SessionManager
-import com.justdoit.yoda.Yoda
 import com.justdoit.yoda.databinding.FragmentSendBinding
 import com.justdoit.yoda.entity.SourceTypeEnum
 import com.justdoit.yoda.utils.OnBackKeyHandler
@@ -32,17 +32,26 @@ class SendFragment : Fragment(), OnBackKeyHandler {
     lateinit var binding: FragmentSendBinding
     lateinit var replyInAppPhoneNo: String
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate<FragmentSendBinding>(inflater, R.layout.fragment_send, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_send,
+            container,
+            false
+        )
         binding.viewModel = this.viewModel
         SessionManager.instance.user?.let {
             binding.myInAppPhoneNoText.text = "# ${it.inAppPhoneNo}"
         }
 
-        showSoftInput(context!!, binding.messageText, 0)
+        (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+            InputMethodManager.SHOW_FORCED,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
 
         binding.toolbar.title = "New Message"
         binding.textInputSendPhoneNo.requestFocus()
@@ -107,8 +116,11 @@ class SendFragment : Fragment(), OnBackKeyHandler {
     }
 
     private fun backToMainFragment(view: View) {
-        val imm = Yoda.instance.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        binding.messageText.clearFocus()
+        (requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+            view.windowToken,
+            0
+        )
         Toast.makeText(this.context, R.string.toast_send_message_success, Toast.LENGTH_LONG).show()
         Navigation.findNavController(view).popBackStack()
     }
@@ -121,10 +133,5 @@ class SendFragment : Fragment(), OnBackKeyHandler {
     override fun onBackPressed(): Boolean {
         Navigation.findNavController(binding.toolbar).popBackStack()
         return true
-    }
-
-    fun showSoftInput(context: Context, view: View, flags: Int): Boolean {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager? ?: return false
-        return imm.showSoftInput(view, flags)
     }
 }
