@@ -29,8 +29,7 @@ Comming Soon...!
 - Firebase Authentication
 - Firebase Cloud Messaging
 - Retrofit2 + Moshi
-- LiveData
-- Databinding
+- Android Architecture Components
 - Kotlin-Coroutines
 - DeployGate
 - Yoda-Server
@@ -48,7 +47,7 @@ Comming Soon...!
 ## Installation  
 
 ### DeployGate
-[Install Link](https://dply.me/vmdiwo)
+[<img src="https://dply.me/01s1si/button/large" alt="Try it on your device via DeployGate">](https://dply.me/01s1si#install)
 
 ## Author  
 [Dai1678](https://github.com/Dai1678)  
