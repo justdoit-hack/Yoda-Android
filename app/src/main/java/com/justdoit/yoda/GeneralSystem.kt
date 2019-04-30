@@ -27,11 +27,37 @@ object GeneralSystem {
         listOf("ｱ", "ｶ", "ｻ", "ﾀ", "ﾅ", "ﾊ", "ﾏ", "ﾔ", "ﾗ", "ﾜ") //何も入力されてない or 入力終了時
     )
 
-    fun getSuggest(index: Int): List<String> {
-        return suggests[index]
+    fun getSuggest(index: Int): SuggestArray {
+        return SuggestArray(suggests[index])
     }
-}
 
-class SuggestArray() {
+    class SuggestArray(val list: List<String>) {
+        fun getItem(index: Int): String {
+            return list[index]
+        }
+    }
 
+    // 全変換
+    fun toParse(number: String): String {
+        var num = ""
+        var text = ""
+        for (i in 0 until number.length) {
+            num += number[i]
+            if (num.length == 2) {
+                text = "$text${toParseFromTwoNumber(num.toInt())}"
+                num = ""
+            }
+        }
+        return text
+    }
+
+    // 二桁のみ変換
+    fun toParseFromTwoNumber(twoNumber: Int): String {
+        val one = twoNumber / 10
+        var two = (twoNumber % 10) - 1
+        if (two < 0) {
+            two = 9
+        }
+        return suggests[one][two]
+    }
 }

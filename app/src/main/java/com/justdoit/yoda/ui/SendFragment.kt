@@ -3,6 +3,8 @@ package com.justdoit.yoda.ui
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,6 +84,34 @@ class SendFragment : Fragment(), OnBackKeyHandler {
                 }
             }
         }
+
+        val initSuggests = GeneralSystem.getSuggest(10)
+        binding.array = initSuggests
+
+        binding.messageText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                //処理
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //処理
+            }
+
+            override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //処理
+                var suggests = GeneralSystem.getSuggest(10)
+                if (text!!.length % 2 == 0) {
+                    // 初期状態の場合
+                } else {
+                    //入力された場合
+                    suggests = GeneralSystem.getSuggest(text.substring(text.length - 1, text.length).toInt())
+                }
+                binding.array = suggests
+                binding.messageTextTranslate.text = GeneralSystem.toParse(text.toString())
+            }
+        })
+
+
         binding.messageText.setOnEditorActionListener { v, actionId, event ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
