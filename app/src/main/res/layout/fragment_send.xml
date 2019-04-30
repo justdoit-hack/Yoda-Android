@@ -189,7 +189,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/send_message_container"
                 android:layout_width="0dp"
