@@ -9,6 +9,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import com.justdoit.yoda.SessionManager
 import com.justdoit.yoda.api.FirebaseAuthService
+import com.justdoit.yoda.entity.MessageEntity
 import com.justdoit.yoda.repository.MessageRepository
 import com.justdoit.yoda.repository.UserRepository
 import com.justdoit.yoda.ui.PocketBellFragment
@@ -151,13 +152,22 @@ class PocketBellViewModel(app: Application) : AndroidViewModel(app) {
                     messageRepository.getReceiveMessageHistory(null, null, it).await() ?: return@launch
                 messageResponse.takeUnless { it.hasError }?.let {
                     val response = it.body ?: return@let
-                    val latestOriginalBody = response.messages?.get(0)?.originalBody ?: ""
-                    val latestParseBody = response.messages?.get(0)?.parsed ?: ""
-                    displays[0].text = latestOriginalBody
-                    displays[1].text = latestParseBody
+                    try {
+                        val latestOriginalBody = response.messages?.get(0)?.originalBody ?: ""
+                        val latestParseBody = response.messages?.get(0)?.parsed ?: ""
+                        displays[0].text = latestOriginalBody
+                        displays[1].text = latestParseBody
+                    } catch (e: Exception) {
+                        displays[0].text = ""
+                        displays[1].text = ""
+                    }
+//                    val latestOriginalBody = response.messages?.get(0)?.originalBody ?: ""
+//                    val latestParseBody = response.messages?.get(0)?.parsed ?: ""
+//                    displays[0].text = latestOriginalBody
+//                    displays[1].text = latestParseBody
                     val displays = listOf(
-                        DisplayInfo(latestOriginalBody, Color.parseColor("#EFEDE4")),
-                        DisplayInfo(latestParseBody, Color.parseColor("#EFEDE4"))
+                        DisplayInfo(displays[0].text, Color.parseColor("#EFEDE4")),
+                        DisplayInfo(displays[1].text, Color.parseColor("#EFEDE4"))
                     )
                     statusDisplay.set(displays[0])
                 }
