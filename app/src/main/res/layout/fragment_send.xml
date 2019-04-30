@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="viewModel" type="com.justdoit.yoda.viewmodel.SendViewModel"/>
+        <variable name="array" type="com.justdoit.yoda.GeneralSystem.SuggestArray"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -189,6 +190,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/suggest_menu_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/to_container"
+                app:layout_constraintBottom_toTopOf="@id/send_message_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+            <include
+                    layout="@layout/layout_suggest_menu"
+                    bind:array="@{array}"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/send_message_container"
@@ -196,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/large"
                 android:background="@color/color_main"
-                app:layout_constraintTop_toBottomOf="@id/to_container"
+                app:layout_constraintTop_toBottomOf="@id/suggest_menu_container"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -219,6 +233,21 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/my_icon"/>
 
+            <TextView
+                    android:id="@+id/message_text_translate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/medium"
+                    android:layout_marginTop="@dimen/small"
+                    android:textColor="@color/color_text_light"
+                    android:textSize="18sp"
+                    android:background="@drawable/frame_light"
+                    android:layout_marginStart="@dimen/medium"
+                    app:layout_constraintStart_toEndOf="@id/my_icon"
+                    app:layout_constraintTop_toBottomOf="@id/my_in_app_phone_no_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="ｱｱｱｱ"/>
+
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/message_text"
                     android:layout_width="0dp"
@@ -236,7 +265,7 @@
                     android:inputType="number"
                     android:imeOptions="actionSend"
                     app:layout_constraintStart_toEndOf="@id/my_icon"
-                    app:layout_constraintTop_toBottomOf="@id/my_in_app_phone_no_text"
+                    app:layout_constraintTop_toBottomOf="@id/message_text_translate"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
